@@ -12,7 +12,7 @@ var items = require('../database-pg');
 var app = express();
 
 
-app.use(express.static(__dirname + '/../angular-client'));
+app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,7 +41,7 @@ passport.use(new GithubStrategy({
 
 
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
   console.log('listening on port 3000!');
 });
 
