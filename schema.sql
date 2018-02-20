@@ -1,10 +1,9 @@
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS username;
 		
-CREATE TABLE user (
-  id INTEGER AUTO_INCREMENT NOT NULL,
+CREATE TABLE username (
+  user_id serial PRIMARY KEY,
   username VARCHAR(25) NOT NULL,
-  createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  PRIMARY KEY (id)
+  createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
 -- ---
@@ -15,17 +14,15 @@ CREATE TABLE user (
 DROP TABLE IF EXISTS post;
 		
 CREATE TABLE post (
-  id INTEGER AUTO_INCREMENT NOT NULL,
-  user_id INTEGER REFERENCES user (id) NOT NULL,
+  post_id serial PRIMARY KEY,
+  user_id INTEGER REFERENCES username (user_id) NOT NULL,
   title VARCHAR(25) NOT NULL,
   code VARCHAR DEFAULT NULL,
   summary VARCHAR DEFAULT NULL,
   createdAt TIMESTAMP DEFAULT NULL,
-  anonymous bit  DEFAULT FALSE,
-  closed bit DEFAULT FALSE,
-  solution INTEGER DEFAULT NULL,
-  PRIMARY KEY (id)
-
+  anonymous boolean  DEFAULT FALSE,
+  closed boolean DEFAULT FALSE,
+  solution INTEGER DEFAULT NULL
 );
 
 -- ---
@@ -36,12 +33,11 @@ CREATE TABLE post (
 DROP TABLE IF EXISTS comment;
 		
 CREATE TABLE comment (
-  id INTEGER AUTO_INCREMENT NOT NULL,
-  user_id INTEGER REFERENCES user (id) NOT NULL,
-  post_id INTEGER REFERENCES post (id) NOT NULL,
+  comment_id serial PRIMARY KEY,
+  user_id INTEGER REFERENCES username (user_id) NOT NULL,
+  post_id INTEGER REFERENCES post (post_id) NOT NULL,
   message VARCHAR,
   votes INTEGER,
-  solution bit DEFAULT FALSE,
-  createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  PRIMARY KEY (id)
+  solution boolean DEFAULT FALSE,
+  createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
