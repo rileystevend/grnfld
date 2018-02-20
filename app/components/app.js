@@ -19,4 +19,8 @@ angular.module('app')
     templateUrl: '../templates/post.html',
     controller: 'AppCtrl'
   })
+  .when('/login', {
+    templateUrl: '../templates/login.html',
+    controller: 'AppCtrl'
+  });
 });
