@@ -1,0 +1,20 @@
+{
+  "name": "grnfld",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "nodemon server/index.js"
+  },
+  "author": "Da Brain Trust, LLC/LTD/GmbH",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.9",
+    "angular-route": "^1.6.9",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.4",
+    "nodemon": "^1.15.1",
+    "pg": "^7.4.1"
+  }
+}
