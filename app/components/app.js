@@ -1,8 +1,8 @@
 angular.module('app')
-.controller('AppCtrl', function(itemsService) {
-  itemsService.getAll((data) => {
-    this.items = data;
-  });
+.controller('AppCtrl', function() {
+  // itemsService.getAll((data) => {
+  //   this.items = data;
+  // });
 })
 // .component('app', {
 //   bindings: {},
@@ -15,8 +15,8 @@ angular.module('app')
     templateUrl: '../templates/main.html',
     controller: 'AppCtrl'
   })
-  .when('/post/:id', {
-    templateUrl: 'post.html',
-    controller: 'postController'
+  .when('/post', {
+    templateUrl: '../templates/post.html',
+    controller: 'AppCtrl'
   })
 });
