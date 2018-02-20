@@ -1,3 +1,1 @@
-angular.module('app', [
-  require('angular-route')
-]);
+angular.module('app', ['ngRoute']);

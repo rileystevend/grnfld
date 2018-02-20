@@ -4,16 +4,16 @@ angular.module('app')
     this.items = data;
   });
 })
-.component('app', {
-  bindings: {},
-  controller: 'AppCtrl',
-  templateUrl: '/templates/app.html'
-})
+// .component('app', {
+//   bindings: {},
+//   controller: 'AppCtrl',
+//   templateUrl: '/templates/app.html'
+// })
 .config(function($routeProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: 'main.html',
-    controller: 'mainController'
+    templateUrl: '../templates/main.html',
+    controller: 'AppCtrl'
   })
   .when('/post/:id', {
     templateUrl: 'post.html',
