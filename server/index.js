@@ -37,7 +37,16 @@ passport.use(new GithubStrategy({
   //utilize user.findeOrCreate() to pull user database data and render user-specific info.
   ));
 
+app.get('/auth/github',
+  passport.authenticate('github'));
 
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    req.session.isAuthenticated = true;
+    res.redirect('/');
+  });
 
 
 
