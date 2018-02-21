@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('FormCtrl', function($scope) {
+.controller('SubmitCtrl', function($scope) {
     $scope.submit = function() {    
         // $http.post("insert.php", {
         //  'username': $scope.username,
