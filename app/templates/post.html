@@ -1,2 +1,37 @@
 <div><a href="#!">GO TO HOME</a></div>
 <h2>THIS IS THE POST PAGE</h2>
+
+<div>
+    <!-- <form novalidate> -->
+      Code:<br>
+      <textarea ng-model="codebox"></textarea><br>
+      Description:<br>
+      <textarea ng-model="description"></textarea>
+      <br><br>
+      <button ng-click="submit()">SUBMIT</button>
+    <!-- </form> -->
+  </div>
+  
+  
+  
+  
+  
+  <!--SEPARATE FILE-->
+  <!-- <script>
+  var app = angular.module('myApp', []);
+  app.controller('formCtrl', function($scope) {
+    //   $scope.master = {firstName:"John", lastName:"Doe"};
+      $scope.submit = function() {    
+       $http.post("insert.php", {
+     'bname':$scope.bname,
+    'bauthor':$scope.bauthor,
+    'bprice':$scope.bprice,
+    'blanguage':$scope.blanguage})
+    
+    .success(function(data,status,headers,config){
+    console.log("Data Inserted Successfully");
+    });
+   };
+      $scope.reset();
+  });
+  </script> -->
