@@ -1,0 +1,16 @@
+.button {
+    border-radius: 2px;
+    border: solid;
+    padding: 2px;
+    display: inline-block;
+}
+
+.button-container {
+    display: inline-block
+}
+
+.navbar {
+    border: solid;
+    border-radius: 2px;
+    display: flex;
+}
