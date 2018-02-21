@@ -14,7 +14,7 @@ angular.module('app')
   })
   .when('/post', {
     templateUrl: '../templates/post.html',
-    controller: 'AppCtrl'
+    controller: 'FormCtrl'
   })
   .when('/login', {
     templateUrl: '../templates/login.html',
