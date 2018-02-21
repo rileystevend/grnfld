@@ -12,9 +12,9 @@ angular.module('app')
     templateUrl: '../templates/main.html',
     controller: 'AppCtrl'
   })
-  .when('/post', {
-    templateUrl: '../templates/post.html',
-    controller: 'AppCtrl'
+  .when('/submit', {
+    templateUrl: '../templates/submit.html',
+    controller: 'SubmitCtrl'
   })
   .when('/login', {
     templateUrl: '../templates/login.html',
