@@ -1,9 +1,14 @@
 <div>
     <h3>Top 10 posts</h3>
-    <ul>
-        <li ng-repeat="post in $ctrl.posts" post="post">
-            <div>{{post.title}}</div>
-        </li>
+    <div class="list-group"></div>
+        <a ng-repeat="post in $ctrl.posts" post="post" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{post.title}}</h5>
+                <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Post Text Goes Here</p>
+            <small>Author, duh</small>
+        </a>
     </ul>
 
 </div>
