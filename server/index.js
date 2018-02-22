@@ -1,15 +1,17 @@
-var express = require('express');
-var passport = require('passport');
-var GithubStrategy = require('passport-github').Strategy;
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var clientSecret = require('./config.js').clientSecret;
+const express = require('express');
+const passport = require('passport');
+const GithubStrategy = require('passport-github').Strategy;
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const clientSecret = require('./config.js').clientSecret;
+const db = require('../database-pg/index');
+
 
 //require github users (github user model)
 //var Github_User = require('./app/mode')
 // var items = require('../database-pg');
 
-var app = express();
+const app = express();
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -41,11 +43,6 @@ app.use(require('body-parser').urlencoded({ extended: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-app.get('/', (req, res) => {
-  res.end();
-})
-
 app.get('/auth/github',
     passport.authenticate('github')
     );
@@ -55,11 +52,15 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
 // Successful authentication, redirect home.
-    req.session.isAuthenticated = true;
-    res.redirect('/');
-  });
+  req.session.isAuthenticated = true;
+  res.redirect('/');
+});
 
-
+app.get('/', (data) => {
+  console.log('here')
+  db.getAllPosts.then(data => console.log(data));
+  res.end()
+})
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('listening on port 3000!');
