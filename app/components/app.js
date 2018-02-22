@@ -6,7 +6,7 @@ angular.module('app')
   controller: 'AppCtrl',
   templateUrl: 'templates/app.html'
 })
-.config(function($routeProvider) {
+.config(function($routeProvider, $locationProvider) {
   $routeProvider
   .when('/', {
     templateUrl: 'templates/main.html',
@@ -22,5 +22,6 @@ angular.module('app')
   })
   .otherwise({
     redirectTo: '/'
-  })
+  });
+  $locationProvider.html5Mode(true);
 });
