@@ -1,5 +1,7 @@
 angular.module('app')
 .controller('AppCtrl', function (postsService) {
+
+  this.posts = [{title: 'Heres the first post'}];
   postsService.getAll(data => {
     console.log(data)
   });
