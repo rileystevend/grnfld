@@ -6,5 +6,10 @@ const knex = require('knex')({
   ssl: true
 });
 
+const getAllPosts = () => {
+  return knex.select().from('post');
+}
 
-module.exports = {};
+module.exports = {
+  getAllPosts: getAllPosts
+};

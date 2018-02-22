@@ -16,11 +16,7 @@ angular.module('app')
     templateUrl: 'templates/submit.html',
     controller: 'SubmitCtrl'
   })
-  .when('/login', {
-    templateUrl: 'templates/login.html',
-    controller: 'AppCtrl'
-  })
   .otherwise({
     redirectTo: '/'
-  })
+  });
 });
