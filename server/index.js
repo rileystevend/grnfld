@@ -3,6 +3,7 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 const bodyParser = require('body-parser');
 const session = require('express-session');
+//require(cookie-session)
 const clientSecret = require('./config.js').clientSecret;
 const db = require('../database-pg/index');
 
@@ -36,11 +37,6 @@ passport.use(new GithubStrategy({
 
     callback();
   }));
-
-
-
-
-
 
 
 app.get('/auth/github',
