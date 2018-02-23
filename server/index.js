@@ -17,6 +17,11 @@ app.use(passport.session());
 //require github users (github user model)
 //var Github_User = require('./app/mode')
 // var items = require('../database-pg');
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}));
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -51,6 +56,15 @@ app.get('/auth/github/callback',
     req.session.isAuthenticated = true;
     res.redirect('/');
   });
+
+  app.get('/ghost', 
+function(req, res) {
+  if(!req.session.isAuthenticated) {
+    res.redirect('/submit');
+  } else {
+    res.send();
+  }
+});
 
 app.get('/posts', (req, res) => {
   console.log('here')

@@ -8,7 +8,10 @@ const knex = require('knex')({
 
 const getAllPosts = (callback) => {
   return knex.select().from('post')
-    .then(data => callback(data))
+    .then(function(data) {
+      console.log(data)
+      callback(data)
+    })
     .catch(err => callback(err.message));
 }
 
