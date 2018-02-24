@@ -1,19 +1,32 @@
 const config = require('./config.js');
+let knex;
 
-const knex = require('knex')({
-  client: 'pg',
-  connection: config.local ||process.env.DATABASE_URL,
-  ssl: true
-});
+if (config.pg) {
+  knex = require('knex')({
+    client: 'pg',
+    connection: config.local ||process.env.DATABASE_URL,
+    ssl: true
+  });
+} else {
+  knex = require('knex')({
+    client: 'mysql',
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
+  });
+}
 
 const getAllPosts = (callback) => {
-  return knex.select().from('post')
-    .then(data => callback(data));
-    //.catch(err => callback(err.message));
+  knex.select().from('posts')
+    .then(data => callback(data))
+    .catch(err => callback(err.message));
 };
 
 const createPost = (post, callback) => {
-  return knex('post').insert({
+  knex('post').insert({
     user_id: post.githubUserId,
     title: post.title,
     code: post.code,

@@ -4,7 +4,7 @@ angular.module('app')
 
   this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   postsService.getAll(data => {
-    console.log(data)
+    console.log('posts: ', data)
   });
 })
 .component('app', {

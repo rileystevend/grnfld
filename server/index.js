@@ -11,7 +11,7 @@ const jwt = require('jwt-simple');
 const app = express();
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
-app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(session({
   secret: 'keyboard dog',
@@ -59,8 +59,8 @@ app.get('/auth/github/callback',
 );
 
 app.get('/posts', (req, res) => {
-  res.json(req.body)
-  // db.getAllPosts(data => res.json(data));
+  // res.json(req.body)
+  db.getAllPosts(data => res.json(data));
 
 });
 
@@ -68,7 +68,7 @@ app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
 
-app.post('/createPost', jsonParser, (req, res) => {
+app.post('/createPost', (req, res) => {
   console.log('inside createpost');
   console.log(req.body);
   db.createPost(req.body, (data) => {
