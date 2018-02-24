@@ -38,6 +38,7 @@ passport.use(new GithubStrategy({
     callback();
   }));
 
+const jsonParser = bodyParser.json();
 
 app.get('/auth/github',
   passport.authenticate('github')
@@ -53,10 +54,19 @@ app.get('/auth/github/callback',
   });
 
 app.get('/posts', (req, res) => {
-  console.log('here')
-  db.getAllPosts(data => res.json(data))
+  console.log('here');
+  db.getAllPosts(data => res.json(data));
 });
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
+});
+
+app.post('/createPost', jsonParser, (req, res) => {
+  console.log('inside createpost');
+  console.log(req.body);
+  db.createPost(req.body, (data) => {
+    console.log(data);
+    res.end();
+  });
 });

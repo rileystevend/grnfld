@@ -1,17 +1,28 @@
-const config = require('./config');
+const config = require('./config.js');
 
 const knex = require('knex')({
   client: 'pg',
-  connection: process.env.DATABASE_URL || config.URL,
+  connection: config.local ||process.env.DATABASE_URL,
   ssl: true
 });
 
 const getAllPosts = (callback) => {
   return knex.select().from('post')
-    .then(data => callback(data))
-    .catch(err => callback(err.message));
-}
+    .then(data => callback(data));
+    //.catch(err => callback(err.message));
+};
+
+const createPost = (post, callback) => {
+  return knex('post').insert({
+    user_id: post.githubUserId,
+    title: post.title,
+    code: post.code,
+    summary: post.summary,
+    anonymous: post.anonymous
+  }).then(data => callback(data));
+};
 
 module.exports = {
-  getAllPosts: getAllPosts
+  getAllPosts: getAllPosts,
+  createPost: createPost
 };
