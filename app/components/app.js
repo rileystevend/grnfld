@@ -4,7 +4,7 @@ angular.module('app')
 
   this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   postsService.getAll(data => {
-    console.log('posts: ', data)
+    this.posts = data;
   });
 })
 .component('app', {
@@ -16,15 +16,15 @@ angular.module('app')
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'AppCtrl'
+      controller: 'MainCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
     })
-    .when('/token/:tokenId', {
-      templateUrl: 'templates/main.html',
-      controller: 'AppCtrl'
+    .when('/login', {
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
     });
   $locationProvider.html5Mode(true);
 });

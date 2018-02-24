@@ -54,9 +54,14 @@ app.get('/auth/github/callback',
     const payload = req.user;
     const secret = config.clientSecret;
     const token = jwt.encode(payload, secret);
-    res.redirect(`/token/${token}/`);
+    // req.session.loggedin = true;
+    res.redirect(`/`);
   }
 );
+
+app.get('/submit', (req, res) => {
+  res.redirect('/');
+});
 
 app.get('/posts', (req, res) => {
   // res.json(req.body)

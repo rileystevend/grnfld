@@ -6,6 +6,7 @@ CREATE TABLE users
 (
   user_id INT NOT NULL,
   username VARCHAR(25) NOT NULL,
+  password varchar(30) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (user_id)
 );
@@ -28,7 +29,8 @@ CREATE TABLE posts
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (post_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id)
-  -- FOREIGN KEY (solution_id) REFERENCES comments (comment_id)
+  -- FOREIGN KEY (solution_id) REFERENCES comments (comment_id) THIS NEEDS TO BE ADDED IN AFTERWARDS
+
 );
 
 -- ---

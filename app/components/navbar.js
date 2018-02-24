@@ -6,5 +6,5 @@ angular.module('app')
   return {
     templateUrl: 'templates/navbar.html',
     controller: 'NavbarCtrl'
-  }
+  };
 });
