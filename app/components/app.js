@@ -1,4 +1,5 @@
 angular.module('app')
+
 .controller('AppCtrl', function (postsService) {
 
   this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
@@ -11,7 +12,7 @@ angular.module('app')
   controller: 'AppCtrl',
   templateUrl: 'templates/app.html'
 })
-.config(function ($routeProvider) {
+.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
@@ -21,7 +22,9 @@ angular.module('app')
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
     })
-    .otherwise({
-      redirectTo: '/'
+    .when('/token/:tokenId', {
+      templateUrl: 'templates/main.html',
+      controller: 'AppCtrl'
     });
+  $locationProvider.html5Mode(true);
 });
