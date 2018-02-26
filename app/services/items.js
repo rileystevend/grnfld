@@ -26,4 +26,16 @@ angular.module('app')
               console.log(err);
             });
       };
+
+      this.submitNewPost = function(newPostObj, callback) {
+        $http.post('/createNewPost', newPostObj)
+            .then(function(data) {
+              if(callback) {
+                callback(data);
+              }
+            })
+            .catch(function(err) {
+              console.log(err);
+            });
+      };
     });

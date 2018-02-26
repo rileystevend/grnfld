@@ -11,6 +11,8 @@ const jwt = require('jwt-simple');
 const app = express();
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
+
+app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(session({
@@ -21,6 +23,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.set('view engine', 'html');
 
 //require github users (github user model)
@@ -28,6 +34,7 @@ app.set('view engine', 'html');
 // var items = require('../database-pg');
 
 passport.serializeUser(function (user, done) {
+  console.log('serialize user', user);
   done(null, user);
 });
 
@@ -41,10 +48,14 @@ passport.use(new GithubStrategy({
   callbackURL: "http://127.0.0.1:3000/auth/github/callback"
 },
   function (accessToken, refreshToken, profile, callback) {
+    console.log('access Token', accessToken);
+    console.log('refresh Token', refreshToken);
+    console.log('profile', profile);
     callback(null, profile);
   }
 ));
 
+const jsonParser = bodyParser.json();
 
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
@@ -64,6 +75,7 @@ app.get('/submit', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
+  // res.json(req.body);
   // res.json(req.body)
   db.getAllPosts(data => res.json(data));
 
@@ -73,7 +85,7 @@ app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
 
-app.post('/createPost', (req, res) => {
+app.post('/createNewPost', (req, res) => {
   console.log('inside createpost');
   console.log(req.body);
   db.createPost(req.body, (data) => {
