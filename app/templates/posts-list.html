@@ -1,5 +1,5 @@
 <div>
-    <h3>Top 10 posts</h3>
+    <h3>Most Recent Posts:</h3>
     <div class="list-group">
         <a ng-repeat="post in $ctrl.posts track by $index" ng-click="$ctrl.handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
             <div class="d-flex w-100 justify-content-between">
@@ -25,6 +25,22 @@
                       <p>{{$ctrl.currentPost.summary}}</p>
                     </div>
                     <div class="modal-footer">
+                      <p>Hey i want a comment here</p>
+                      <div class="comments-list">
+                            <div class="media">
+                                <p class="pull-right"><small>5 days ago</small></p>
+                                 <a class="media-left" href="#">
+                                   <img src="http://lorempixel.com/40/40/people/1/">
+                                 </a>
+                                 <div class="media-body">
+                                     
+                                   <h4 class="media-heading user_name">Baltej Singh</h4>
+                                   Wow! this is really great.
+                                   
+                                   <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                                 </div>
+                               </div>
+                            </div>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>

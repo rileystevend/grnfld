@@ -4,10 +4,11 @@ angular.module('app')
 
   // this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   // this.currentPost = this.posts[0];
+  this.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
   postsService.getAll(data => {
     console.log(data);
     this.posts = data;
-    this.currentPost = this.posts[0];
+    
   });
 
   this.handlePostClick = (clickedvalue) => {
