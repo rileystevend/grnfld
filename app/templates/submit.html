@@ -1,16 +1,24 @@
 <h2>Submission Page</h2>
 <div>
-  <!-- <form novalidate> -->
+  <form role="form" ng-submit="createNewPost(post)" novalidate>
+    <!--create extra divs so that form shows up in position-->
+    <div>stuffalskdjflakdjsf</div>
+    <div>lakjsdflkj</div>
+    <div>ljasdlf</div>
     <div class="form-group">
-      <label for="code">Code</label>
-      <textarea ng-model="codebox" class="form-control" id="code" rows="10" placeholder="Your code goes here, idiot"></textarea>
+      <label for="newPostTitle">Title</label>
+      <input type="text" ng-model="post.title" class="form-control" id="newPostTitle" rows="10" placeholder="Title"></input>
     </div>
     <div class="form-group">
-        <label for="code">Description</label>
-        <textarea ng-model="description" class="form-control" id="code" rows="3" placeholder="Describe your coding issue"></textarea>
-      </div>
-    <button type="button" ng-click="submit()" class="btn btn-primary">Submit</button>
-  <!-- </form> -->
+      <label for="newPostCode">Code</label>
+      <textarea ng-model="post.codebox" class="form-control" id="newPostCode" rows="10" placeholder="Your code goes here, idiot"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="newPostDescription">Description</label>
+      <textarea ng-model="post.description" class="form-control" rows="3" placeholder="Describe your coding issue"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary">Submit</button>
+  </form>
 </div>
   
   

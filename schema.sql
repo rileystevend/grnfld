@@ -13,6 +13,8 @@ CREATE TABLE username (
 -- Table 'post'
 --
 -- ---
+/*
+postgres
 
 CREATE TABLE post (
   post_id serial PRIMARY KEY,
@@ -25,6 +27,19 @@ CREATE TABLE post (
   solution_id INTEGER DEFAULT NULL, --references comment_id from comment table
   createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
+*/
+CREATE TABLE post (
+  post_id serial PRIMARY KEY,
+  user_id INTEGER REFERENCES username (user_id) NOT NULL,
+  title VARCHAR(50) NOT NULL,
+  code VARCHAR DEFAULT NULL,
+  summary VARCHAR DEFAULT NULL,
+  anonymous boolean  DEFAULT FALSE,
+  closed boolean DEFAULT FALSE,
+  solution_id INTEGER DEFAULT NULL, --references comment_id from comment table
+  createdAt TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+
 
 -- ---
 -- Table 'comment'
