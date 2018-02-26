@@ -3,9 +3,14 @@ angular.module('app')
 .controller('AppCtrl', function (postsService) {
 
   this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
-  postsService.getAll(data => {
-    this.posts = data;
-  });
+  this.currentPost = this.posts[0];
+  // postsService.getAll(data => {
+  //   this.posts = data;
+  // });
+
+  this.handlePostClick = (clickedvalue) => {
+    this.currentPost = this.posts[clickedvalue];
+  }
 })
 .component('app', {
   bindings: {},
@@ -16,7 +21,7 @@ angular.module('app')
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'MainCtrl'
+      controller: 'AppCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',
