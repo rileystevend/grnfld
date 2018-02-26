@@ -2,11 +2,13 @@ angular.module('app')
 
 .controller('AppCtrl', function (postsService) {
 
-  this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
-  this.currentPost = this.posts[0];
-  // postsService.getAll(data => {
-  //   this.posts = data;
-  // });
+  // this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
+  // this.currentPost = this.posts[0];
+  postsService.getAll(data => {
+    console.log(data);
+    this.posts = data;
+    this.currentPost = this.posts[0];
+  });
 
   this.handlePostClick = (clickedvalue) => {
     this.currentPost = this.posts[clickedvalue];

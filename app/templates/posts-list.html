@@ -4,10 +4,10 @@
         <a ng-repeat="post in $ctrl.posts track by $index" ng-click="$ctrl.handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{post.title}}</h5>
-                <small>3 days ago</small>
+                <small>author goes here</small>
             </div>
-            <p class="mb-1">Post Text Goes Here</p>
-            <small>Author, duh</small>
+            <p class="mb-1">{{post.summary}}</p>
+            <small>{{post.created_at}}</small>
         </a>
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -16,10 +16,13 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Modal Header</h4>
+                      <h4 class="modal-title">{{$ctrl.currentPost.title}}</h4>
                     </div>
                     <div class="modal-body">
-                      <p>{{$ctrl.currentPost.title}}.</p>
+                        <p>{{$ctrl.currentPost.code}}</p>
+                      </div>
+                    <div class="modal-body">
+                      <p>{{$ctrl.currentPost.summary}}</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
