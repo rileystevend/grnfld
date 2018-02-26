@@ -59,13 +59,13 @@ CREATE TABLE comments
 -- ---
 
 insert into users
-  (user_id, username)
+  (user_id, username, password)
 VALUES
-  (11111111, 'Rambo'),
-  (22222222, 'Gepeto'),
-  (33333333, 'Zanbato'),
-  (44444444, 'Colonel'),
-  (55555555, 'Hipster');
+  (11111111, 'Rambo', 'password'),
+  (22222222, 'Gepeto', 'password'),
+  (33333333, 'Zanbato', 'password'),
+  (44444444, 'Colonel', 'password'),
+  (55555555, 'Hipster', 'password');
 
 insert into posts
   (user_id, title, code, summary, solution_id)
