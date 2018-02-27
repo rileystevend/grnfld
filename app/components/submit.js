@@ -6,7 +6,6 @@ angular.module('app')
       // console.log('res', res);
     });
   };
-
   //create new post variable
   $scope.post = {
     title: '',
@@ -22,8 +21,6 @@ angular.module('app')
 
   //allows function to be public. No $scope = private function
   // $scope.createNewPost = createNewPost;
-
-
 });
 
 /*

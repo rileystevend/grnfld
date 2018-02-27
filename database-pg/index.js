@@ -33,7 +33,7 @@ const getAllPostsPromise = () => {
   return new Promise(function(resolve, reject) {
 
   })
-}
+};
 async function getPostsWithCommentsAsync() {
   //get all posts with username
   const posts = await knex.select().from('posts')
@@ -50,13 +50,16 @@ async function getPostsWithCommentsAsync() {
 }
 
 const createPost = (post, callback) => {
-  knex('post').insert({
+  knex('posts').insert({
     user_id: post.githubUserId,
     title: post.title,
     code: post.code,
     summary: post.summary,
-    anonymous: post.anonymous
-  }).then(data => callback(data));
+    anon: post.anonymous
+  }).then( (data) => {
+    console.log('before callback');
+    callback(data)
+  });
 };
 
 module.exports = {
