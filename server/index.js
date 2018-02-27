@@ -107,9 +107,19 @@ app.post('/createPost', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log('login: ', req.body)
-  req.session.loggedIn = true;
-  res.status(200).send('success');
+  db.checkCredentials(req.body.username, (data) => {
+    if (data[0].username === req.body.username &&
+      data[0].password === req.body.password) {
+      req.session.loggedIn = true;
+      res.status(200).json({
+        user_id: data[0].user_id,
+        username: data[0].username
+      });
+    } else {
+      res.status(401).send('failure');
+    }
+  })
+  
 });
 
 app.get('*', (req, res) => { res.redirect('/') });

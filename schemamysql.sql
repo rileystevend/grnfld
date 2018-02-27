@@ -60,7 +60,7 @@ CREATE TABLE comments
 insert into users
   (user_id, username, password)
 VALUES
-  (11111111, 'Rambo', 'password'),
+  (11111111, 'yaboi', '69'),
   (22222222, 'Gepeto', 'password'),
   (33333333, 'Zanbato', 'password'),
   (44444444, 'Colonel', 'password'),
@@ -83,7 +83,3 @@ VALUES
   (33333333, 1, 'sword = shield', 525),
   (11111111, 1, 'Pulls out rocket launcher', 15),
   (55555555, 1, 'I used those before they were cool', 0);
-<<<<<<< HEAD
-  
-=======
->>>>>>> 0003110611cef6157e0a686adf63c0311d2626e1

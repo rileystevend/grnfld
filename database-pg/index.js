@@ -62,9 +62,17 @@ const createPost = (post, callback) => {
   });
 };
 
+const checkCredentials = (username, callback) => {
+  knex.select().from('users')
+    .where('username', username)
+    .then(data => callback(data))
+    .catch(err => callback(err.message));
+};
+
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getComments: getComments,
-  getPostsWithCommentsAsync: getPostsWithCommentsAsync
+  getPostsWithCommentsAsync: getPostsWithCommentsAsync,
+  checkCredentials: checkCredentials
 };
