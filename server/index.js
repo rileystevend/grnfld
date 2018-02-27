@@ -75,11 +75,29 @@ app.get('/submit', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  // res.json(req.body);
-  // res.json(req.body)
   db.getAllPosts(data => res.json(data));
-
 });
+
+app.get('/test', (req, res) => {
+  // wrap this in a promise/async/await
+  let postsWithComments = async () => {
+    res.json(await db.getPostsWithCommentsAsync());
+
+  };
+
+  postsWithComments();
+
+  // res.json(db.getPostsWithCommentsAsync());  //doesn't work
+});
+// app.get('/posts', (req, res) => {
+//   db.getAllPosts(data => {
+//     res.json(data);
+//   });
+// });
+
+// app.get('/comments/:postid', (req, res) => {
+//   db.getComments()
+// });
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');

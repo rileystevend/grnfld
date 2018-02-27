@@ -19,11 +19,45 @@ if (config.pg) {
   });
 }
 
+<<<<<<< HEAD
 const getAllPosts = (callback) => {
   knex.select().from('posts')
+=======
+const getAllPosts = ( (callback) => {
+  knex.select().from('posts')
+      .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
+    .then(data => callback(data))
+    .catch(err => callback(err.message));
+});
+
+const getComments = (postId, callback) => {
+  knex.select().from('comments')
+      .where('post_id', postId)
+>>>>>>> 8284d318e711fa320a18a3d1135e53a0938c165c
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
+
+//using async/await
+const getAllPostsPromise = () => {
+  return new Promise(function(resolve, reject) {
+
+  })
+}
+async function getPostsWithCommentsAsync() {
+  //get all posts with username
+  const posts = await knex.select().from('posts')
+      .leftOuterJoin('users', 'users.user_id', 'posts.user_id');
+
+  //returns posts with a comment array inside each post object
+  return Promise.all(posts.map(async (post, index, posts) => {
+    //get all comments for the selected post_id
+    const comments = await knex.select().from('comments')
+        .where('post_id', post.post_id);
+    post.comments = comments;
+    return post;
+  }));
+}
 
 const createPost = (post, callback) => {
   knex('post').insert({
@@ -37,5 +71,12 @@ const createPost = (post, callback) => {
 
 module.exports = {
   getAllPosts: getAllPosts,
+<<<<<<< HEAD
   createPost: createPost
 };
+=======
+  createPost: createPost,
+  getComments: getComments,
+  getPostsWithCommentsAsync: getPostsWithCommentsAsync
+};
+>>>>>>> 8284d318e711fa320a18a3d1135e53a0938c165c
