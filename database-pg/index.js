@@ -7,15 +7,20 @@ if (config.pg) {
     connection: config.local ||process.env.DATABASE_URL,
     ssl: true
   });
-} else if (config.mySql){
+} else {
   knex = require('knex')({
     client: 'mysql',
-    connection: config.mySql
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
   });
 }
 
 const getAllPosts = (callback) => {
-  knex.select().from('posts').leftOuterJoin('users', 'users.user_id', 'posts.user_id')
+  knex.select().from('posts')
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
@@ -27,13 +32,8 @@ const createPost = (post, callback) => {
     code: post.code,
     summary: post.summary,
     anonymous: post.anonymous
-  }).then( (data) => {
-    console.log('before callback');
-    callback(data)
-  });
+  }).then(data => callback(data));
 };
-
-
 
 module.exports = {
   getAllPosts: getAllPosts,
