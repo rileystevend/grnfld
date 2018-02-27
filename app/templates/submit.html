@@ -1,6 +1,6 @@
 <h2>Submission Page</h2>
 <div>
-  <form role="form" ng-submit="createNewPost(post)" novalidate>
+  <form role="form" novalidate>
     <!--create extra divs so that form shows up in position-->
     <div>stuffalskdjflakdjsf</div>
     <div>lakjsdflkj</div>
@@ -17,7 +17,7 @@
       <label for="newPostDescription">Description</label>
       <textarea ng-model="post.description" class="form-control" rows="3" placeholder="Describe your coding issue"></textarea>
     </div>
-    <button type="button" class="btn btn-primary">Submit</button>
+    <button type="button" ng-click="submit()" class="btn btn-primary">Submit</button>
   </form>
 </div>
   

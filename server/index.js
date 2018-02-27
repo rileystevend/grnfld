@@ -12,13 +12,13 @@ const app = express();
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(session({
   secret: 'keyboard dog',
   cookie: {
-    maxAge: 600000
+    maxAge: 600000,
+    httpOnly: false,
   },
   resave: false,
   saveUninitialized: true
@@ -45,7 +45,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new GithubStrategy({
   clientID: config.clientID,
   clientSecret: config.clientSecret,
-  callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+  callbackURL: "http://localhost:3000/auth/github/callback"
 },
   function (accessToken, refreshToken, profile, callback) {
     console.log('access Token', accessToken);
@@ -54,8 +54,6 @@ passport.use(new GithubStrategy({
     callback(null, profile);
   }
 ));
-
-const jsonParser = bodyParser.json();
 
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
@@ -99,15 +97,23 @@ app.get('/test', (req, res) => {
 //   db.getComments()
 // });
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log('listening on port 3000!');
+app.post('/createPost', (req, res) => {
+  console.log('new post: ', req.body);
+  // db.createPost(req.body, (data) => {
+  //   console.log(data);
+  //   res.end();
+  // });
+  res.end();
 });
 
-app.post('/createNewPost', (req, res) => {
-  console.log('inside createpost');
-  console.log(req.body);
-  db.createPost(req.body, (data) => {
-    console.log(data);
-    res.end();
-  });
+app.post('/login', (req, res) => {
+  console.log('login: ', req.body)
+  req.session.loggedIn = true;
+  res.status(200).send('success');
+});
+
+app.get('*', (req, res) => { res.redirect('/') });
+
+app.listen(process.env.PORT || 3000, function () {
+  console.log('listening on port 3000!');
 });

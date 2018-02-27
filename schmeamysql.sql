@@ -30,7 +30,6 @@ CREATE TABLE posts
   PRIMARY KEY (post_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id)
   -- FOREIGN KEY (solution_id) REFERENCES comments (comment_id) THIS NEEDS TO BE ADDED IN AFTERWARDS
-
 );
 
 -- ---
@@ -84,3 +83,7 @@ VALUES
   (33333333, 1, 'sword = shield', 525),
   (11111111, 1, 'Pulls out rocket launcher', 15),
   (55555555, 1, 'I used those before they were cool', 0);
+<<<<<<< HEAD
+  
+=======
+>>>>>>> 0003110611cef6157e0a686adf63c0311d2626e1

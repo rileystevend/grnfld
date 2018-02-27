@@ -8,12 +8,11 @@ angular.module('app')
   postsService.getAll(data => {
     console.log(data);
     this.posts = data;
-    
   });
 
   this.handlePostClick = (clickedvalue) => {
     this.currentPost = this.posts[clickedvalue];
-  }
+  };
 })
 .component('app', {
   bindings: {},
@@ -33,6 +32,7 @@ angular.module('app')
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
-    });
+    })
+    .otherwise({ redirectTo: '/login' });
   $locationProvider.html5Mode(true);
 });
