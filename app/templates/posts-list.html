@@ -26,7 +26,7 @@
                     </div>
                     <div class="modal-footer">
                       <p>Hey i want a comment here</p>
-                      <div class="comments-list">
+                        <div class="comments-list">
                             <div class="media">
                                 <p class="pull-right"><small>5 days ago</small></p>
                                  <a class="media-left" href="#">
@@ -39,8 +39,15 @@
                                    
                                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
                                  </div>
-                               </div>
                             </div>
+                        </div>
+                        <form role="form" ng-submit="createNewPost(post)" novalidate>
+                                <div class="form-group">
+                                  <label for="newCommentDescription">Description</label>
+                                  <textarea ng-model="comment.description" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                              </form>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>
