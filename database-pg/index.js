@@ -4,7 +4,12 @@ let knex;
 if (config.mySql) {
   knex = require('knex')({
     client: 'mysql',
-    connection: config.mySql
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
   });
 } else {
   knex = require('knex')({
