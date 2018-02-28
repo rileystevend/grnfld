@@ -60,11 +60,11 @@ CREATE TABLE comments
 insert into users
   (username, password)
 VALUES
-  ('yaboi', '69'),
-  ('Gepeto', 'password'),
-  ('Zanbato', 'password'),
-  ('Colonel', 'password'),
-  ('Hipster', 'password');
+  ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56'),
+  ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
+  ('Zanbato', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
+  ('Colonel', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
+  ('Hipster', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou');
 
 insert into posts
   (user_id, title, code, summary, solution_id)

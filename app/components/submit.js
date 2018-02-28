@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('SubmitCtrl', function($scope, postsService) {
+.controller('SubmitCtrl', function($scope, postsService, $rootScope) {
   $scope.submit = function() {
     postsService.submitNewPost($scope.post, (res) => {
       // console.log('THE post button WORKS!');
@@ -8,6 +8,7 @@ angular.module('app')
   };
   //create new post variable
   $scope.post = {
+    userId: $rootScope.userId,
     title: '',
     codebox: '',
     description: ''

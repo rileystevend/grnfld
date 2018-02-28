@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('AppCtrl', function (postsService) {
+.controller('AppCtrl', function (postsService, $rootScope) {
 
   // this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   // this.currentPost = this.posts[0];
@@ -13,6 +13,8 @@ angular.module('app')
   this.handlePostClick = (clickedvalue) => {
     this.currentPost = this.posts[clickedvalue];
   };
+
+  $rootScope.userId = 0;
 })
 .component('app', {
   bindings: {},
@@ -23,7 +25,7 @@ angular.module('app')
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'AppCtrl'
+      controller: 'MainCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',

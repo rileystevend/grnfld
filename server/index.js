@@ -99,15 +99,18 @@ app.post('/createPost', (req, res) => {
 
 app.post('/login', (req, res) => {
   db.checkCredentials(req.body.username, (data) => {
-    if (data[0].username === req.body.username &&
-      data[0].password === req.body.password) {
-      req.session.loggedIn = true;
-      res.status(200).json({
-        user_id: data[0].user_id,
-        username: data[0].username
-      });
+    if (data[0].username === req.body.username) {
+      if (bcrypt.compareSync(req.body.password, data[0].password)) {
+        req.session.loggedIn = true;
+        res.status(200).json({
+          user_id: data[0].user_id,
+          username: data[0].username
+        });
+      } else {
+        res.status(401).send('false password');
+      }
     } else {
-      res.status(401).send('failure');
+      res.status(401).send('username doesn\'t exist');
     }
   });
 });
