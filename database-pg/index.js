@@ -19,10 +19,6 @@ if (config.pg) {
   });
 }
 
-<<<<<<< HEAD
-const getAllPosts = (callback) => {
-  knex.select().from('posts')
-=======
 const getAllPosts = ( (callback) => {
   knex.select().from('posts')
       .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
@@ -33,7 +29,6 @@ const getAllPosts = ( (callback) => {
 const getComments = (postId, callback) => {
   knex.select().from('comments')
       .where('post_id', postId)
->>>>>>> 8284d318e711fa320a18a3d1135e53a0938c165c
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
@@ -71,12 +66,7 @@ const createPost = (post, callback) => {
 
 module.exports = {
   getAllPosts: getAllPosts,
-<<<<<<< HEAD
-  createPost: createPost
-};
-=======
   createPost: createPost,
   getComments: getComments,
   getPostsWithCommentsAsync: getPostsWithCommentsAsync
 };
->>>>>>> 8284d318e711fa320a18a3d1135e53a0938c165c
