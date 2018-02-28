@@ -23,6 +23,7 @@ const getAllPosts = ( (callback) => {
 
 const getComments = (postId, callback) => {
   knex.select().from('comments')
+      .leftOuterJoin('users', 'users.user_id', 'comments.user_id')
       .where('post_id', postId)
     .then(data => callback(data))
     .catch(err => callback(err.message));

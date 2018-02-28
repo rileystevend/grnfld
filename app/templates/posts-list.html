@@ -27,16 +27,17 @@
                     <div class="modal-footer">
                         <div ng-repeat="comment in $ctrl.comments track by $index" class="comments-list">
                             <div class="media">
-                                <p class="pull-right"><small>{{comment.created_at.slice(0, 10)}}</small></p>
+                                <p class="pull-right"><small></small></p>
 <!--                                  <a class="media-left" href="#">
                                    <img src="http://lorempixel.com/40/40/people/1/">
                                  </a> -->
                                  <div class="media-body">
                                      
-                                   <h4 class="media-heading user_name">User {{comment.user_id}} says:</h4>
+                                   <h4 class="media-heading user_name">{{comment.username}} says:</h4>
                                    {{comment.message}}
                                    
-                                   <p><small><a href="">Like</a> - <a href="">Mark as Solution</a> Votes: {{comment.votes}}</small></p>
+                                   <p><small><a href="">Like</a> - <a href="">Mark as Solution</a> Votes: {{comment.votes}}
+                                    <div>{{comment.created_at.slice(0, 10)}}</div></small></p>
                                  </div>
                             </div>
                         </div>
