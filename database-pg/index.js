@@ -4,22 +4,23 @@ let knex;
 
   knex = require('knex')({
     client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'grnfld'
-    }
+    connection: config.mySql
+  });
+} else {
+  knex = require('knex')({
+    client: 'pg',
+    connection: config.local || process.env.DATABASE_URL,
+    ssl: true
   });
 
 
 
-const getAllPosts = ( (callback) => {
+const getAllPosts = (callback) => {
   knex.select().from('posts')
       .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
     .then(data => callback(data))
     .catch(err => callback(err.message));
-});
+};
 
 const getComments = (postId, callback) => {
   knex.select().from('comments')
@@ -62,28 +63,18 @@ const createPost = (post, callback) => {
   });
 };
 
-const checkCredentials = (username, callback) => {
-  knex.select().from('users')
-    .where('username', username)
-    .then(data => callback(data))
-    .catch(err => callback(err.message));
+const checkCredentials = async (username) => {
+  return await knex.select().from('users').where('username', username);
 };
 
-const createUser = (username, password, callback) => {
-  knex.select().from('users')
-    .where('username', username)
-    .then(data => {
-      if (data.length) {
-        callback('already exists');
-      } else {
-        knex('users').insert({
-          username: username,
-          password: password
-        })
-          .then(data => callback(data));
-      }
-    })
-    .catch(err => callback(err.message));
+const createUser = async (username, password) => {
+  const query = await knex.select().from('users').where('username', username);
+
+  if (query.length) {
+    return 'already exists';
+  } else {
+    return await knex('users').insert({ username: username, password: password});
+  }
 }
 
 module.exports = {

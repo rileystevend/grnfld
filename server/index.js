@@ -102,33 +102,35 @@ app.post('/createPost', (req, res) => {
   res.end();
 });
 
-app.post('/login', (req, res) => {
-  db.checkCredentials(req.body.username, (data) => {
-    if (data[0].username === req.body.username) {
-      if (bcrypt.compareSync(req.body.password, data[0].password)) {
-        req.session.loggedIn = true;
-        res.status(200).json({
-          user_id: data[0].user_id,
-          username: data[0].username
-        });
-      } else {
-        res.status(401).send('false password');
-      }
+app.post('/login', async (req, res) => {
+  const userInfo = await db.checkCredentials(req.body.username);
+
+  if (userInfo.length) {
+    const user = userInfo[0]
+    if (bcrypt.compareSync(req.body.password, user.password)) {
+      req.session.loggedIn = true;
+      res.status(200).json({
+        user_id: user.user_id,
+        username: user.username
+      });
     } else {
-      res.status(401).send('username doesn\'t exist');
+      res.status(401).send('false password');
     }
-  });
+  } else {
+    res.status(401).send('username doesn\'t exist');
+  }
+  
 });
 
-app.post('/register', (req, res) => {
-  let shasum = bcrypt.hashSync(req.body.password);
-  db.createUser(req.body.username, shasum, (data) => {
-    if (data === 'already exists') {
-      res.status(409).end();
-    } else {
-      res.status(200).end();
-    }
-  })
+app.post('/register', async (req, res) => {
+  const shasum = bcrypt.hashSync(req.body.password);
+  const data = await db.createUser(req.body.username, shasum);
+  if (data === 'already exists') {
+    res.status(409).end();
+  } else {
+    res.status(200).end();
+  }
+
 });
 
 app.get('*', (req, res) => { res.redirect('/') });
