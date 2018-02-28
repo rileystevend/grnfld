@@ -4,7 +4,7 @@ const GithubStrategy = require('passport-github').Strategy;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const config = require('./config.js');
-
+const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
 const jwt = require('jwt-simple');
 
@@ -12,13 +12,13 @@ const app = express();
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(session({
   secret: 'keyboard dog',
   cookie: {
-    maxAge: 600000
+    maxAge: 600000,
+    httpOnly: false,
   },
   resave: false,
   saveUninitialized: true
@@ -45,7 +45,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new GithubStrategy({
   clientID: config.clientID,
   clientSecret: config.clientSecret,
-  callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+  callbackURL: "http://localhost:3000/auth/github/callback"
 },
   function (accessToken, refreshToken, profile, callback) {
     console.log('access Token', accessToken);
@@ -54,8 +54,6 @@ passport.use(new GithubStrategy({
     callback(null, profile);
   }
 ));
-
-const jsonParser = bodyParser.json();
 
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
@@ -69,10 +67,6 @@ app.get('/auth/github/callback',
     res.redirect(`/`);
   }
 );
-
-app.get('/submit', (req, res) => {
-  res.redirect('/');
-});
 
 app.get('/posts', (req, res) => {
   db.getAllPosts(data => res.json(data));
@@ -89,25 +83,51 @@ app.get('/test', (req, res) => {
 
   // res.json(db.getPostsWithCommentsAsync());  //doesn't work
 });
-// app.get('/posts', (req, res) => {
-//   db.getAllPosts(data => {
-//     res.json(data);
-//   });
-// });
 
 // app.get('/comments/:postid', (req, res) => {
 //   db.getComments()
 // });
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log('listening on port 3000!');
+app.post('/createPost', (req, res) => {
+  console.log('new post: ', req.body);
+  // db.createPost(req.body, (data) => {
+  //   console.log(data);
+  //   res.end();
+  // });
+  res.end();
 });
 
-app.post('/createNewPost', (req, res) => {
-  console.log('inside createpost');
-  console.log(req.body);
-  db.createPost(req.body, (data) => {
-    console.log(data);
-    res.end();
+app.post('/login', (req, res) => {
+  db.checkCredentials(req.body.username, (data) => {
+    if (data[0].username === req.body.username) {
+      if (bcrypt.compareSync(req.body.password, data[0].password)) {
+        req.session.loggedIn = true;
+        res.status(200).json({
+          user_id: data[0].user_id,
+          username: data[0].username
+        });
+      } else {
+        res.status(401).send('false password');
+      }
+    } else {
+      res.status(401).send('username doesn\'t exist');
+    }
   });
+});
+
+app.post('/register', (req, res) => {
+  let shasum = bcrypt.hashSync(req.body.password);
+  db.createUser(req.body.username, shasum, (data) => {
+    if (data === 'already exists') {
+      res.status(409).end();
+    } else {
+      res.status(200).end();
+    }
+  })
+});
+
+app.get('*', (req, res) => { res.redirect('/') });
+
+app.listen(process.env.PORT || 3000, function () {
+  console.log('listening on port 3000!');
 });

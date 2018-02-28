@@ -1,21 +1,16 @@
 const config = require('./config.js');
 let knex;
 
-if (config.pg) {
+if (config.mySql) {
+  knex = require('knex')({
+    client: 'mysql',
+    connection: config.mySql
+  });
+} else {
   knex = require('knex')({
     client: 'pg',
     connection: config.local ||process.env.DATABASE_URL,
     ssl: true
-  });
-} else {
-  knex = require('knex')({
-    client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'grnfld'
-    }
   });
 }
 
@@ -38,7 +33,7 @@ const getAllPostsPromise = () => {
   return new Promise(function(resolve, reject) {
 
   })
-}
+};
 async function getPostsWithCommentsAsync() {
   //get all posts with username
   const posts = await knex.select().from('posts')
@@ -55,18 +50,47 @@ async function getPostsWithCommentsAsync() {
 }
 
 const createPost = (post, callback) => {
-  knex('post').insert({
+  knex('posts').insert({
     user_id: post.githubUserId,
     title: post.title,
     code: post.code,
     summary: post.summary,
-    anonymous: post.anonymous
-  }).then(data => callback(data));
+    anon: post.anonymous
+  }).then( (data) => {
+    console.log('before callback');
+    callback(data)
+  });
 };
+
+const checkCredentials = (username, callback) => {
+  knex.select().from('users')
+    .where('username', username)
+    .then(data => callback(data))
+    .catch(err => callback(err.message));
+};
+
+const createUser = (username, password, callback) => {
+  knex.select().from('users')
+    .where('username', username)
+    .then(data => {
+      if (data.length) {
+        callback('already exists');
+      } else {
+        knex('users').insert({
+          username: username,
+          password: password
+        })
+          .then(data => callback(data));
+      }
+    })
+    .catch(err => callback(err.message));
+}
 
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getComments: getComments,
-  getPostsWithCommentsAsync: getPostsWithCommentsAsync
+  getPostsWithCommentsAsync: getPostsWithCommentsAsync,
+  checkCredentials: checkCredentials,
+  createUser: createUser
 };

@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('AppCtrl', function (postsService) {
+.controller('AppCtrl', function (postsService, $rootScope) {
 
   // this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   // this.currentPost = this.posts[0];
@@ -8,12 +8,13 @@ angular.module('app')
   postsService.getAll(data => {
     console.log(data);
     this.posts = data;
-    
   });
 
   this.handlePostClick = (clickedvalue) => {
     this.currentPost = this.posts[clickedvalue];
-  }
+  };
+
+  $rootScope.userId = 0;
 })
 .component('app', {
   bindings: {},
@@ -24,7 +25,7 @@ angular.module('app')
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'AppCtrl'
+      controller: 'MainCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',
@@ -33,6 +34,11 @@ angular.module('app')
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
-    });
+    })
+    .when('/register', {
+      templateUrl: 'templates/register.html',
+      controller: 'RegisterCtrl'
+    })
+    .otherwise({ redirectTo: '/login' });
   $locationProvider.html5Mode(true);
 });
