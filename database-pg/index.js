@@ -69,10 +69,28 @@ const checkCredentials = (username, callback) => {
     .catch(err => callback(err.message));
 };
 
+const createUser = (username, password, callback) => {
+  knex.select().from('users')
+    .where('username', username)
+    .then(data => {
+      if (data.length) {
+        callback('already exists');
+      } else {
+        knex('users').insert({
+          username: username,
+          password: password
+        })
+          .then(data => callback(data));
+      }
+    })
+    .catch(err => callback(err.message));
+}
+
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getComments: getComments,
   getPostsWithCommentsAsync: getPostsWithCommentsAsync,
-  checkCredentials: checkCredentials
+  checkCredentials: checkCredentials,
+  createUser: createUser
 };

@@ -4,7 +4,7 @@ const GithubStrategy = require('passport-github').Strategy;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const config = require('./config.js');
-
+const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
 const jwt = require('jwt-simple');
 
@@ -68,10 +68,6 @@ app.get('/auth/github/callback',
   }
 );
 
-app.get('/submit', (req, res) => {
-  res.redirect('/');
-});
-
 app.get('/posts', (req, res) => {
   db.getAllPosts(data => res.json(data));
 });
@@ -87,11 +83,6 @@ app.get('/test', (req, res) => {
 
   // res.json(db.getPostsWithCommentsAsync());  //doesn't work
 });
-// app.get('/posts', (req, res) => {
-//   db.getAllPosts(data => {
-//     res.json(data);
-//   });
-// });
 
 // app.get('/comments/:postid', (req, res) => {
 //   db.getComments()
@@ -118,8 +109,18 @@ app.post('/login', (req, res) => {
     } else {
       res.status(401).send('failure');
     }
+  });
+});
+
+app.post('/register', (req, res) => {
+  let shasum = bcrypt.hashSync(req.body.password);
+  db.createUser(req.body.username, shasum, (data) => {
+    if (data === 'already exists') {
+      res.status(409).end();
+    } else {
+      res.status(200).end();
+    }
   })
-  
 });
 
 app.get('*', (req, res) => { res.redirect('/') });

@@ -12,4 +12,17 @@ angular.module('app')
         console.log(err);
       });
   };
+
+  this.register = function (username, password, callback) {
+    $http.post('/register', {
+      username: username,
+      password: password
+    })
+      .then(function (data) {
+        callback(data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 });
