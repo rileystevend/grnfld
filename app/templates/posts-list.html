@@ -41,7 +41,7 @@
                                  </div>
                             </div>
                         </div>
-                        <form role="form" ng-submit="createNewPost(post)" novalidate>
+                        <form ng-show="{{$rootScope.userId === 0}}" role="form" ng-submit="createNewPost(post)" novalidate>
                                 <div class="form-group">
                                   <label for="newCommentDescription">Description</label>
                                   <textarea ng-model="comment.description" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
