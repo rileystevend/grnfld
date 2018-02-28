@@ -34,4 +34,17 @@ angular.module('app')
         console.log(err);
       });
   };
+
+  //grab comments
+  this.getComments = function (postId, callback) {
+    $http.get('/comments', {
+      params: {postId: postId}
+    })
+      .then(function ({ data }) {
+        callback(data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 });

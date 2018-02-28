@@ -1,7 +1,7 @@
 const config = require('./config.js');
 let knex;
 
-if (config.mySql) {
+
   knex = require('knex')({
     client: 'mysql',
     connection: {
@@ -11,13 +11,8 @@ if (config.mySql) {
       database: 'grnfld'
     }
   });
-} else {
-  knex = require('knex')({
-    client: 'pg',
-    connection: config.local ||process.env.DATABASE_URL,
-    ssl: true
-  });
-}
+
+
 
 const getAllPosts = ( (callback) => {
   knex.select().from('posts')

@@ -12,6 +12,10 @@ angular.module('app')
 
   this.handlePostClick = (clickedvalue) => {
     this.currentPost = this.posts[clickedvalue];
+    postsService.getComments(this.currentPost.post_id, (data) => {
+      console.log(data);
+      this.comments = data;
+    })
   };
 
   $rootScope.userId = 0;
@@ -25,7 +29,7 @@ angular.module('app')
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'MainCtrl'
+      controller: 'AppCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',
