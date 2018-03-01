@@ -1,1 +1,1 @@
-angular.module('app', ['ngRoute', 'ngCookies']);
+angular.module('app', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
