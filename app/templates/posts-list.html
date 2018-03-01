@@ -19,7 +19,7 @@
                       <h4 class="modal-title">{{currentPost.title}}</h4>
                     </div>
                     <div class="modal-body">
-                        <p>{{currentPost.code}}</p>
+                        <pre>{{currentPost.code}}</pre>
                       </div>
                     <div class="modal-body">
                       <p>{{currentPost.summary}}</p>
@@ -41,7 +41,7 @@
                                  </div>
                             </div>
                         </div>
-                        <form ng-show="{{!$rootScope.userId}}" role="form" ng-submit="createNewPost(post)" novalidate>
+                        <form ng-show="$root.userId" role="form" ng-submit="createNewPost(post)" novalidate>
                                 <div class="form-group">
                                   <label for="newCommentDescription">Description</label>
                                   <textarea ng-model="comment.description" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
