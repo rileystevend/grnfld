@@ -1,13 +1,72 @@
 const express = require('express');
+const passport = require('passport');
+const GithubStrategy = require('passport-github').Strategy;
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const config = require('./config.js');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
+const jwt = require('jwt-simple');
 
 const app = express();
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(session({
+  secret: 'keyboard dog',
+  cookie: {
+    maxAge: 600000,
+    httpOnly: false,
+  },
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.set('view engine', 'html');
+
+//require github users (github user model)
+//var Github_User = require('./app/mode')
+// var items = require('../database-pg');
+
+passport.serializeUser(function (user, done) {
+  console.log('serialize user', user);
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+passport.use(new GithubStrategy({
+  clientID: config.clientID,
+  clientSecret: config.clientSecret,
+  callbackURL: "http://localhost:3000/auth/github/callback"
+},
+  function (accessToken, refreshToken, profile, callback) {
+    console.log('access Token', accessToken);
+    console.log('refresh Token', refreshToken);
+    console.log('profile', profile);
+    callback(null, profile);
+  }
+));
+
+app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function (req, res) {
+    const payload = req.user;
+    const secret = config.clientSecret;
+    const token = jwt.encode(payload, secret);
+    // req.session.loggedin = true;
+    res.redirect(`/`);
+  }
+);
 
 app.get('/posts', (req, res) => {
   db.getAllPosts(data => res.json(data));
@@ -29,11 +88,6 @@ app.get('/test', (req, res) => {
 //   db.getComments()
 // });
 
-app.get('/comments', (req, res) => {
-  let postId = req.param('postId');
-  db.getComments(postId, data => res.json(data));
-});
-
 app.post('/createPost', (req, res) => {
   console.log('new post: ', req.body);
   // db.createPost(req.body, (data) => {
@@ -49,6 +103,7 @@ app.post('/login', async (req, res) => {
   if (userInfo.length) {
     const user = userInfo[0]
     if (bcrypt.compareSync(req.body.password, user.password)) {
+      req.session.loggedIn = true;
       res.status(200).json({
         user_id: user.user_id,
         username: user.username
@@ -68,11 +123,7 @@ app.post('/register', async (req, res) => {
   if (data === 'already exists') {
     res.status(409).end();
   } else {
-    const userInfo = await db.checkCredentials(req.body.username);
-    res.status(200).json({
-      user_id: userInfo[0].user_id,
-      username: userInfo[0].username
-    });
+    res.status(200).end();
   }
 
 });

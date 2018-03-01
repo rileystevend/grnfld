@@ -1,7 +1,7 @@
-<div>
+<div ng-controller="MainCtrl">
     <h3>Most Recent Posts:</h3>
     <div class="list-group">
-        <a ng-repeat="post in $ctrl.posts track by $index" ng-click="$ctrl.handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
+        <a ng-repeat="post in posts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{post.title}}</h5>
                 <small>{{post.username}}</small>
@@ -16,16 +16,16 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">{{$ctrl.currentPost.title}}</h4>
+                      <h4 class="modal-title">{{currentPost.title}}</h4>
                     </div>
                     <div class="modal-body">
-                        <p>{{$ctrl.currentPost.code}}</p>
+                        <p>{{currentPost.code}}</p>
                       </div>
                     <div class="modal-body">
-                      <p>{{$ctrl.currentPost.summary}}</p>
+                      <p>{{currentPost.summary}}</p>
                     </div>
                     <div class="modal-footer">
-                        <div ng-repeat="comment in $ctrl.comments track by $index" class="comments-list">
+                        <div ng-repeat="comment in comments track by $index" class="comments-list">
                             <div class="media">
                                 <p class="pull-right"><small></small></p>
 <!--                                  <a class="media-left" href="#">
@@ -41,7 +41,7 @@
                                  </div>
                             </div>
                         </div>
-                        <form ng-show="{{$rootScope.userId === 0}}" role="form" ng-submit="createNewPost(post)" novalidate>
+                        <form ng-show="{{!$rootScope.userId}}" role="form" ng-submit="createNewPost(post)" novalidate>
                                 <div class="form-group">
                                   <label for="newCommentDescription">Description</label>
                                   <textarea ng-model="comment.description" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
