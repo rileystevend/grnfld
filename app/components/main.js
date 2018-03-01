@@ -21,7 +21,9 @@ angular.module('app')
     postsService.getComments($scope.currentPost.post_id, (data) => {
       console.log(data);
       $scope.comments = data;
+      $scope.currentIndex = actualValue;
     });
+
   };
 
 
@@ -35,6 +37,8 @@ angular.module('app')
     };
     console.log('controller!!!', commentObj);
     commentService.submitNewComment(commentObj, (data) => {
+      $scope.message = '';
+      $scope.handlePostClick($scope.currentIndex);
       console.log('sent from controller to server!!');
     })
   };
