@@ -1,9 +1,10 @@
 angular.module('app')
-.controller('SubmitCtrl', function($scope, postsService, $rootScope) {
+.controller('SubmitCtrl', function($scope, postsService, $rootScope, $location) {
   $scope.submit = function() {
     postsService.submitNewPost($scope.post, (res) => {
-      // console.log('THE post button WORKS!');
-      // console.log('res', res);
+      if(res.status === 200){
+        $location.path('/');
+      }
     });
   };
   //create new post variable

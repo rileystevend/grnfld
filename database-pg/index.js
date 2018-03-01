@@ -4,12 +4,7 @@ let knex;
 if (config.mySql) {
   knex = require('knex')({
     client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'grnfld'
-    }
+    connection: config.mySql
   });
 } else {
   knex = require('knex')({
@@ -57,13 +52,12 @@ async function getPostsWithCommentsAsync() {
 
 const createPost = (post, callback) => {
   knex('posts').insert({
-    user_id: post.githubUserId,
+    user_id: post.userId,
     title: post.title,
-    code: post.code,
-    summary: post.summary,
-    anon: post.anonymous
+    code: post.codebox,
+    summary: post.description,
+    anon: false //hard coded to false until functionality implemented
   }).then( (data) => {
-    console.log('before callback');
     callback(data)
   });
 };
@@ -91,7 +85,7 @@ const createUser = async (username, password) => {
   } else {
     return await knex('users').insert({ username: username, password: password});
   }
-}
+};
 
 module.exports = {
   getAllPosts: getAllPosts,
