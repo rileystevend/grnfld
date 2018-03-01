@@ -25,12 +25,8 @@ app.get('/test', (req, res) => {
   // res.json(db.getPostsWithCommentsAsync());  //doesn't work
 });
 
-// app.get('/comments/:postid', (req, res) => {
-//   db.getComments()
-// });
-
 app.get('/comments', (req, res) => {
-  let postId = req.param('postId');
+  let postId = req.query.postId;
   db.getComments(postId, data => res.json(data));
 });
 

@@ -1,7 +1,8 @@
 const config = require('./config.js');
 let knex;
 
-knex = require('knex')({
+if (config.mySql) {
+  knex = require('knex')({
     client: 'mysql',
     connection: {
       host: 'localhost',
@@ -10,10 +11,17 @@ knex = require('knex')({
       database: 'grnfld'
     }
   });
-
+} else {
+  knex = require('knex')({
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
 const getAllPosts = (callback) => {
   knex.select().from('posts')
-      .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
+    .orderBy('post_id', 'desc')
+    .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };

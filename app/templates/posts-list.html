@@ -1,7 +1,7 @@
-<div ng-controller="MainCtrl">
+<div>
     <h3>Most Recent Posts:</h3>
     <div class="list-group">
-        <a ng-repeat="post in posts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
+        <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{post.title}}</h5>
                 <small>{{post.username}}</small>
@@ -58,4 +58,3 @@
     </div>
 </div>
 <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-

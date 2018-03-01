@@ -1,19 +1,31 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, commentService, $rootScope){
-	$scope.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
-  	postsService.getAll(data => {
-      console.log(data);
-      $scope.posts = data;
-  	});
-
+.controller('MainCtrl', function ($scope, postsService, $rootScope) {
+  $scope.currentPage = 1;
+  $scope.numPerPage = 5;
+  
+  postsService.getAll(data => {
+    console.log('got posts');
+    $scope.posts = data;
+    
+    $scope.$watch('currentPage + numPerPage', function () {
+      let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+      let end = begin + $scope.numPerPage;
+      
+      $scope.filteredPosts = $scope.posts.slice(begin, end);
+    });
+  });
+  
   $scope.handlePostClick = (clickedvalue) => {
-    $scope.currentPost = $scope.posts[clickedvalue];
+    let actualValue = (($scope.currentPage - 1) * 5) + clickedvalue;
+    $scope.currentPost = $scope.posts[actualValue];
     postsService.getComments($scope.currentPost.post_id, (data) => {
       console.log(data);
       $scope.comments = data;
-      $scope.currentIndex = clickedvalue;
-    })
+      $scope.currentIndex = actualValue;
+    });
+
   };
+
 
   $scope.message = '';
 
@@ -30,4 +42,6 @@ angular.module('app')
       console.log('sent from controller to server!!');
     })
   };
-})
+
+});
+
