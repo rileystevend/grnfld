@@ -3,13 +3,13 @@ let knex;
 
 if (config.mySql) {
   knex = require('knex')({
-      client: 'mysql',
-      connection: {
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'grnfld'
-      }
+    client: 'mysql',
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
   });
 } else {
   knex = require('knex')({
