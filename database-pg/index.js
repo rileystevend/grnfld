@@ -13,7 +13,8 @@ knex = require('knex')({
 
 const getAllPosts = (callback) => {
   knex.select().from('posts')
-      .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
+    .orderBy('post_id', 'desc')
+    .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
