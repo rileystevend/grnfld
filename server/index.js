@@ -29,6 +29,11 @@ app.get('/test', (req, res) => {
 //   db.getComments()
 // });
 
+app.get('/comments', (req, res) => {
+  let postId = req.param('postId');
+  db.getComments(postId, data => res.json(data));
+});
+
 app.post('/createPost', (req, res) => {
   console.log('new post: ', req.body);
   // db.createPost(req.body, (data) => {

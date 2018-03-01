@@ -4,15 +4,19 @@ angular.module('app')
 
   // this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
   // this.currentPost = this.posts[0];
-  this.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
-  postsService.getAll(data => {
-    console.log(data);
-    this.posts = data;
-  });
+  // this.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
+  // postsService.getAll(data => {
+  //   console.log(data);
+  //   this.posts = data;
+  // });
 
-  this.handlePostClick = (clickedvalue) => {
-    this.currentPost = this.posts[clickedvalue];
-  };
+  // this.handlePostClick = (clickedvalue) => {
+  //   this.currentPost = this.posts[clickedvalue];
+  //   postsService.getComments(this.currentPost.post_id, (data) => {
+  //     console.log(data);
+  //     this.comments = data;
+  //   })
+  // };
 
   $rootScope.userId = 0;
 })
