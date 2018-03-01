@@ -1,16 +1,23 @@
 const config = require('./config.js');
 let knex;
 
-knex = require('knex')({
-    client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'grnfld'
-    }
+if (config.mySql) {
+  knex = require('knex')({
+      client: 'mysql',
+      connection: {
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'grnfld'
+      }
   });
-
+} else {
+  knex = require('knex')({
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
 const getAllPosts = (callback) => {
   knex.select().from('posts')
     .orderBy('post_id', 'desc')
