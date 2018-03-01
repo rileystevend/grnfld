@@ -1,18 +1,15 @@
 const config = require('./config.js');
 let knex;
 
-if (config.mySql) {
-  knex = require('knex')({
+knex = require('knex')({
     client: 'mysql',
-    connection: config.mySql
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
   });
-} else {
-  knex = require('knex')({
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    ssl: true
-  });
-}
 
 const getAllPosts = (callback) => {
   knex.select().from('posts')
@@ -23,7 +20,8 @@ const getAllPosts = (callback) => {
 
 const getComments = (postId, callback) => {
   knex.select().from('comments')
-      .where('post_id', postId)
+    .leftOuterJoin('users', 'users.user_id', 'comments.user_id')
+    .where('post_id', postId)
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
@@ -62,6 +60,17 @@ const createPost = (post, callback) => {
   });
 };
 
+const createComment = (comment, callback) => {
+  knex('comments').insert({
+    user_id: comment.user_id,
+    post_id: comment.post_id,
+    message: comment.message
+  }).then( (data) => {
+    console.log('before callback');
+    callback(data)
+  });
+};
+
 const checkCredentials = async (username) => {
   return await knex.select().from('users').where('username', username);
 };
@@ -82,5 +91,6 @@ module.exports = {
   getComments: getComments,
   getPostsWithCommentsAsync: getPostsWithCommentsAsync,
   checkCredentials: checkCredentials,
-  createUser: createUser
+  createUser: createUser,
+  createComment: createComment
 };

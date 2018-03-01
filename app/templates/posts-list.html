@@ -44,9 +44,9 @@
                         <form ng-show="$root.userId" role="form" ng-submit="createNewPost(post)" novalidate>
                                 <div class="form-group">
                                   <label for="newCommentDescription">Description</label>
-                                  <textarea ng-model="comment.description" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
+                                  <textarea ng-model="message" class="form-control" rows="3" placeholder="Write your comment here"></textarea>
                                 </div>
-                                <button type="button" class="btn btn-primary">Submit</button>
+                                <button ng-click="submitComment()" type="button" class="btn btn-primary">Submit</button>
                               </form>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
