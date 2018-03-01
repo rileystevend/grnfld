@@ -1,8 +1,9 @@
 angular.module('app')
+
 .controller('MainCtrl', function ($scope, postsService, $rootScope) {
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
-
+  
   postsService.getAll(data => {
     console.log('got posts');
     $scope.posts = data;
