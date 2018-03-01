@@ -13,4 +13,13 @@ angular.module('app')
       $scope.comments = data;
     })
   };
+
+  $scope.submitComment = (clickedvalue) => {
+    $scope.currentPost = $scope.posts[clickedvalue];
+    //let commentObj = {} $scope.currentPost.post_id
+    commentService.submitNewComment(commentObj, (data) => {
+      console.log(data);
+      $scope.comments = data;
+    })
+  };
 })
