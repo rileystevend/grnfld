@@ -1,13 +1,4 @@
 angular.module('app')
-
-.controller('MainCtrl', function ($scope, postsService, commentService, $rootScope){
-	$scope.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
-  	postsService.getAll(data => {
-      console.log(data);
-      $scope.posts = data;
-  	});
-
-
 .controller('MainCtrl', function ($scope, postsService, $rootScope) {
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
