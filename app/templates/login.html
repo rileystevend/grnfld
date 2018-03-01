@@ -17,7 +17,7 @@
                 class="help-block"
             >Username is too short.</p>
             <p
-                ng-show="loginForm.username.$error.maxlength && loginForm.username.$dirty"
+                ng-show="loginForm.username.$error.maxlength"
                 class="help-block"
             >Username is too long.</p>
         </div>
@@ -29,6 +29,7 @@
                 name="password"
                 ng-model="password"
                 ng-minlength="2"
+                required
             >
             <p
                 ng-show="loginForm.password.$invalid && loginForm.password.$dirty"
