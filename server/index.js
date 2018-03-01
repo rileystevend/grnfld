@@ -81,6 +81,12 @@ app.post('/register', async (req, res) => {
 
 });
 
+app.post('/solution', async (req, res) => {
+  console.log(req.body);
+  const data = await db.markSolution(req.body.commentId, req.body.postId);
+  res.status(200).end();
+});
+
 app.get('*', (req, res) => { res.redirect('/') });
 
 app.listen(process.env.PORT || 3000, function () {

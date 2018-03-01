@@ -30,11 +30,7 @@ const getComments = (postId, callback) => {
 };
 
 //using async/await
-const getAllPostsPromise = () => {
-  return new Promise(function(resolve, reject) {
-
-  })
-};
+//currently not used
 async function getPostsWithCommentsAsync() {
   //get all posts with username
   const posts = await knex.select().from('posts')
@@ -87,6 +83,14 @@ const createUser = async (username, password) => {
   }
 };
 
+const markSolution = async (commentId, postId) => {
+  //updates posts table --- don't seem to be using the posts table solution column for any functionality
+  await knex('posts').where('post_id', postId).update('solution_id', commentId);
+
+  //updates comments table
+  await knex('comments').where('comment_id', commentId).update('solution', true);
+};
+
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
@@ -94,5 +98,6 @@ module.exports = {
   getPostsWithCommentsAsync: getPostsWithCommentsAsync,
   checkCredentials: checkCredentials,
   createUser: createUser,
-  createComment: createComment
+  createComment: createComment,
+  markSolution: markSolution
 };

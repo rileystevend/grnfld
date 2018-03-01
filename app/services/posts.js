@@ -47,4 +47,10 @@ angular.module('app')
         console.log(err);
       });
   };
+
+  this.selectSolution = async (commentId, postId) => {
+    await $http.post('/solution', {
+      postId: postId, commentId: commentId
+    });
+  }
 });

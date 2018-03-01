@@ -6,7 +6,7 @@ angular.module('app')
 
     //get all posts on page load
     postsService.getAll(data => {
-      console.log('got posts');
+      console.log('got posts', data);
       $scope.posts = data;
 
       //pagination
@@ -52,5 +52,17 @@ angular.module('app')
         $scope.handlePostClick($scope.currentIndex);
       });
     }
+  };
+
+  $scope.selectSolution = async (comment) => {
+    console.log('inside selectSolution');
+    console.log('comment', comment);
+    await postsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+    console.log('select Solution completed');
+  };
+
+  $scope.likeComment = async (postuserid, rootuserid) => {
+    console.log('postuserid', postuserid);
+    console.log('rootuserid', rootuserid);
   };
 });
