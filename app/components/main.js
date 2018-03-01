@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope){
+.controller('MainCtrl', function ($scope, postsService, commentService, $rootScope){
 	$scope.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
   	postsService.getAll(data => {
       console.log(data);
@@ -14,12 +14,17 @@ angular.module('app')
     })
   };
 
-  $scope.submitComment = (clickedvalue) => {
-    $scope.currentPost = $scope.posts[clickedvalue];
-    //let commentObj = {} $scope.currentPost.post_id
+  $scope.message = '';
+
+  $scope.submitComment = () => {
+    let commentObj = {
+    	user_id: $rootScope.userId,
+    	post_id: $scope.currentPost.post_id,
+    	message: $scope.message
+    };
+    console.log('controller!!!', commentObj);
     commentService.submitNewComment(commentObj, (data) => {
-      console.log(data);
-      $scope.comments = data;
+      console.log('sent from controller to server!!');
     })
   };
 })

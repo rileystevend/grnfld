@@ -60,6 +60,17 @@ const createPost = (post, callback) => {
   });
 };
 
+const createComment = (comment, callback) => {
+  knex('comments').insert({
+    user_id: comment.user_id,
+    post_id: comment.post_id,
+    message: comment.message
+  }).then( (data) => {
+    console.log('before callback');
+    callback(data)
+  });
+};
+
 const checkCredentials = async (username) => {
   return await knex.select().from('users').where('username', username);
 };
@@ -80,5 +91,6 @@ module.exports = {
   getComments: getComments,
   getPostsWithCommentsAsync: getPostsWithCommentsAsync,
   checkCredentials: checkCredentials,
-  createUser: createUser
+  createUser: createUser,
+  createComment: createComment
 };
