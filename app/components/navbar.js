@@ -1,5 +1,8 @@
 angular.module('app')
-.controller('NavbarCtrl', function() {
+.controller('NavbarCtrl', function($scope, $rootScope) {
+  $scope.logout = function() {
+    $rootScope.userId = 0;
+  }
 })
 .directive('navbar', function() {
   return {

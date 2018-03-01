@@ -13,6 +13,7 @@
         <li><a ng-show="$root.userId" href="/submit">Submit</a></li>
         <li><a ng-hide="$root.userId" href="/login">Login</a></li>
         <li><a ng-hide="$root.userId" href="/register">Register</a></li>
+        <li><a ng-show="$root.userId" href="/" ng-click="logout()">Logout</a></li>
       </ul>
     </div>
   </div>
