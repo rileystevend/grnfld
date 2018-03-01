@@ -40,17 +40,17 @@ angular.module('app')
 
   $scope.message = '';
 
-  $scope.submitComment = () => {
-    let commentObj = {
-    	user_id: $rootScope.userId,
-    	post_id: $scope.currentPost.post_id,
-    	message: $scope.message
-    };
-    commentService.submitNewComment(commentObj, (data) => {
-      $scope.message = '';
-      $scope.handlePostClick($scope.currentIndex);
-    })
+  $scope.submitComment = (isValid) => {
+    if (isValid) {
+      let commentObj = {
+        user_id: $rootScope.userId,
+        post_id: $scope.currentPost.post_id,
+        message: $scope.message
+      };
+      commentService.submitNewComment(commentObj, (data) => {
+        $scope.message = '';
+        $scope.handlePostClick($scope.currentIndex);
+      });
+    }
   };
-
 });
-
