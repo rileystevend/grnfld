@@ -8,14 +8,18 @@
                 type="text"
                 name="username"
                 ng-model="username"
-                ng-minlength="1"
+                ng-minlength="5"
                 ng-maxlength="25"
                 required
             >
             <p
-                ng-show="loginForm.username.$invalid && loginForm.username.$dirty"
+                ng-show="loginForm.username.$error.minlength && loginForm.username.$dirty"
                 class="help-block"
             >Username is too short.</p>
+            <p
+                ng-show="loginForm.username.$error.maxlength && loginForm.username.$dirty"
+                class="help-block"
+            >Username is too long.</p>
         </div>
 
         <div class="form-group">
