@@ -1,31 +1,42 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope) {
-  $scope.currentPage = 1;
-  $scope.numPerPage = 5;
-  
-  postsService.getAll(data => {
-    console.log('got posts');
-    $scope.posts = data;
-    
-    $scope.$watch('currentPage + numPerPage', function () {
-      let begin = (($scope.currentPage - 1) * $scope.numPerPage);
-      let end = begin + $scope.numPerPage;
-      
-      $scope.filteredPosts = $scope.posts.slice(begin, end);
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentService) {
+  $scope.init = function() {
+    $scope.currentPage = 1;
+    $scope.numPerPage = 5;
+
+    //get all posts on page load
+    postsService.getAll(data => {
+      console.log('got posts');
+      $scope.posts = data;
+
+      //pagination
+      $scope.$watch('currentPage + numPerPage', function () {
+        //filter posts by page number
+        let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+        let end = begin + $scope.numPerPage;
+
+        $scope.filteredPosts = $scope.posts.slice(begin, end);
+      });
     });
-  });
-  
-  $scope.handlePostClick = (clickedvalue) => {
-    let actualValue = (($scope.currentPage - 1) * 5) + clickedvalue;
-    $scope.currentPost = $scope.posts[actualValue];
+  };
+
+  //runs init on view startup
+  $scope.init();
+
+  $scope.handlePostClick = (clickedValue) => {
+    $scope.currentPost = $scope.filteredPosts[clickedValue];
+    //get all comments from clicked post
     postsService.getComments($scope.currentPost.post_id, (data) => {
-      console.log(data);
       $scope.comments = data;
-      $scope.currentIndex = actualValue;
+      $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
 
   };
 
+  //hacky way of refreshing the current view to get new posts
+  $scope.refresh = () => {
+    $scope.init();
+  };
 
   $scope.message = '';
 
@@ -35,11 +46,9 @@ angular.module('app')
     	post_id: $scope.currentPost.post_id,
     	message: $scope.message
     };
-    console.log('controller!!!', commentObj);
     commentService.submitNewComment(commentObj, (data) => {
       $scope.message = '';
       $scope.handlePostClick($scope.currentIndex);
-      console.log('sent from controller to server!!');
     })
   };
 
