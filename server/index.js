@@ -39,6 +39,16 @@ app.post('/createPost', (req, res) => {
   res.end();
 });
 
+app.post('/createComment', (req, res) => {
+  console.log('new post: ', req.body);
+  let comment = req.body;
+  // db.getComments(postId, data => res.json(data));
+  db.createComment(comment, (data) => {
+    console.log('sent from server to db comment!');
+    res.end();
+  });
+});
+
 app.post('/login', async (req, res) => {
   const userInfo = await db.checkCredentials(req.body.username);
 

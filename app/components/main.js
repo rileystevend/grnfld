@@ -1,5 +1,13 @@
 angular.module('app')
 
+.controller('MainCtrl', function ($scope, postsService, commentService, $rootScope){
+	$scope.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
+  	postsService.getAll(data => {
+      console.log(data);
+      $scope.posts = data;
+  	});
+
+
 .controller('MainCtrl', function ($scope, postsService, $rootScope) {
   $scope.currentPage = 1;
   $scope.numPerPage = 5;
@@ -24,4 +32,21 @@ angular.module('app')
       $scope.comments = data;
     });
   };
+
+
+  $scope.message = '';
+
+  $scope.submitComment = () => {
+    let commentObj = {
+    	user_id: $rootScope.userId,
+    	post_id: $scope.currentPost.post_id,
+    	message: $scope.message
+    };
+    console.log('controller!!!', commentObj);
+    commentService.submitNewComment(commentObj, (data) => {
+      console.log('sent from controller to server!!');
+    })
+  };
+
 });
+
