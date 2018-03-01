@@ -1,8 +1,7 @@
 angular.module('app')
 .controller('MainCtrl', function ($scope, postsService, $rootScope){
-	$scope.comments = [{text: 'hey first comment!'}, {text: 'hey second comment!'}]
   postsService.getAll(data => {
-    console.log(data);
+    console.log('got posts');
     $scope.posts = data;
   });
 
