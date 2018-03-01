@@ -17,9 +17,13 @@
                 class="help-block"
             >Username is too short.</p>
             <p
-                ng-show="registerForm.username.$error.maxlength && registerForm.username.$dirty"
+                ng-show="registerForm.username.$error.maxlength"
                 class="help-block"
             >Username is too long.</p>
+            <p
+                ng-show="registerForm.username.$error.required && registerForm.username.$dirty"
+                class="help-block"
+            >A username is required.</p>
         </div>
 
         <div class="form-group">
@@ -29,11 +33,16 @@
                 name="password"
                 ng-model="password"
                 ng-minlength="2"
+                required
             >
             <p
                 ng-show="registerForm.password.$invalid && registerForm.password.$dirty"
                 class="help-block"
             >Password is too short.</p>
+            <p
+                ng-show="registerForm.password.$error.required && registerForm.password.$dirty"
+                class="help-block"
+            >A password is required.</p>
         </div>
         <button type="submit" ng-disabled="registerForm.$invalid">Register</button>
     </form>
