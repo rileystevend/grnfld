@@ -85,7 +85,7 @@ const createUser = async (username, password) => {
   } else {
     return await knex('users').insert({ username: username, password: password});
   }
-}
+};
 
 module.exports = {
   getAllPosts: getAllPosts,

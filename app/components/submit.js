@@ -1,16 +1,9 @@
 angular.module('app')
-.controller('SubmitCtrl', function($scope, postsService, $rootScope) {
+.controller('SubmitCtrl', function($scope, postsService, $rootScope, $location) {
   $scope.submit = function() {
-    console.log('THE post button WORKS!1');
     postsService.submitNewPost($scope.post, (res) => {
-      //reset fields to be blank if submission successful
       if(res.status === 200){
-        $scope.post = {
-          userId: $rootScope.userId,
-          title: '',
-          codebox: '',
-          description: ''
-        }
+        $location.path('/');
       }
     });
   };
