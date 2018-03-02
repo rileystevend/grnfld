@@ -34,17 +34,24 @@
                                     <!--<a class="media-left" href="#">
                                    <img src="http://lorempixel.com/40/40/people/1/">
                                  </a> -->
-                                 <div class="media-body">
+                                <div class="media-body">
                                      
-                                   <h4 class="media-heading user_name">{{comment.username}} says:</h4>
-                                   {{comment.message}}
+                                    <h4 class="media-heading user_name">{{comment.username}} says:</h4>
+                                    {{comment.message}}
                                      <!--$root.userId-->
-                                   <p><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
+                                    <p><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - 
+                                    <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">
+                                        Mark as Solution</a> Votes: {{comment.votes}}
                                     <div>{{comment.created_at.slice(0, 10)}}</div></small></p>
                                 </div>
                             </div>
                         </div>
-                        <form ng-show="$root.userId" name="commentForm" ng-click="submitComment(commentForm.$valid)" novalidate>
+                        <form
+                            ng-show="$root.userId"
+                            name="commentForm"
+                            ng-submit="submitComment(commentForm.$valid)"
+                            novalidate
+                        >
                             <div class="form-group">
                                 <label for="newCommentDescription">Description</label>
                                 <textarea
