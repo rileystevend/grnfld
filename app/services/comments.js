@@ -1,5 +1,5 @@
  angular.module('app')
-.service('commentService', function ($http) {
+.service('commentsService', function ($http) {
   this.submitNewComment = function (newCommentObj, callback) {
     $http.post('/createComment', newCommentObj)
       .then(function (data) {
