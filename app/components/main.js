@@ -27,6 +27,7 @@ angular.module('app')
     $scope.currentPost = $scope.filteredPosts[clickedValue];
     //get all comments from clicked post
     postsService.getComments($scope.currentPost.post_id, (data) => {
+      console.log('comments', data);
       $scope.comments = data;
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
@@ -57,6 +58,7 @@ angular.module('app')
   $scope.selectSolution = async (comment) => {
     console.log('inside selectSolution');
     console.log('comment', comment);
+    $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
     await postsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
     console.log('select Solution completed');
   };

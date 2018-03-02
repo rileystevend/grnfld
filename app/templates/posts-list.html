@@ -28,7 +28,7 @@
                     <div class="modal-footer">
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
                             <!--designate solution for post-->
-                            <span ng-class="{'glyphicon glyphicon-star': comment.solution}" aria-hidden="true"></span>
+                            <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
                             <div class="media">
                                 <p class="pull-right"><small></small></p>
                                     <!--<a class="media-left" href="#">
@@ -38,8 +38,8 @@
                                      
                                    <h4 class="media-heading user_name">{{comment.username}} says:</h4>
                                    {{comment.message}}
-                                   
-                                   <p><small><a ng-click="likeComment(currentPost.user_id, $root.userId)" href="">Like</a> - <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
+                                     <!--$root.userId-->
+                                   <p><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
                                     <div>{{comment.created_at.slice(0, 10)}}</div></small></p>
                                 </div>
                             </div>
