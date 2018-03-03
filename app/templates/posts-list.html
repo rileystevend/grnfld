@@ -74,7 +74,7 @@
 
                         <form ng-show="$root.userId" name="commentForm" ng-click="submitComment(commentForm.$valid)" novalidate>
                             <div class="form-group">
-                                <label for="newCommentDescription">Your response</label>
+                                <label for="newCommentDescription" class="pull-left">Your response</label>
                                 <textarea
                                     name="message"
                                     ng-model="message"
@@ -97,7 +97,7 @@
                                 type="submit"
                                 ng-click="commentForm.$setPristine()"
                                 ng-disabled="commentForm.$invalid"
-                                class="btn btn-primary"
+                                class="btn btn-primary pull-left"
                             >Submit</button>
                         </form>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -109,4 +109,3 @@
        
     </div>
 </div>
-<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
