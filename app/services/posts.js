@@ -35,22 +35,4 @@ angular.module('app')
       });
   };
 
-  //grab comments
-  this.getComments = function (postId, callback) {
-    $http.get('/comments', {
-      params: {postId: postId}
-    })
-      .then(function ({ data }) {
-        callback(data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  };
-
-  this.selectSolution = async (commentId, postId) => {
-    await $http.post('/solution', {
-      postId: postId, commentId: commentId
-    });
-  }
 });
