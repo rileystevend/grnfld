@@ -32,7 +32,8 @@ app.get('/comments', (req, res) => {
 
 app.post('/createPost', (req, res) => {
   console.log('new post: ', req.body);
-  db.createPost(req.body, (data) => {
+  db.createPost(req.body, (data, err) => {
+    if (err) console.log(err.code);
     res.end();
   });
 });

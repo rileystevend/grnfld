@@ -54,9 +54,8 @@ const createPost = (post, callback) => {
     code: post.codebox,
     summary: post.description,
     anon: false //hard coded to false until functionality implemented
-  }).then( (data) => {
-    callback(data);
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const createComment = (comment, callback) => {
