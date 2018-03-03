@@ -1,5 +1,5 @@
 <h2>THIS IS THE LOGIN PAGE</h2>
-<div>
+<div class="col-xs-6 col-sm-3">
     <h3>Please login</h3>
     <form name="loginForm" ng-submit="submit(loginForm.$valid)" novalidate>
         <div class="form-group">
@@ -36,6 +36,6 @@
                 class="help-block"
             >Password is too short.</p>
         </div>
-        <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+        <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid">Login</button>
     </form>
 </div>

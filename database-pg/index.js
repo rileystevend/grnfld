@@ -8,6 +8,7 @@ if (config.mySql) {
   });
 } else {
   knex = require('knex')({
+
     client: 'pg',
     connection: process.env.DATABASE_URL,
     ssl: true
