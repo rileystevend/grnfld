@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentService) {
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
   $scope.init = function() {
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
@@ -48,7 +48,7 @@ angular.module('app')
         post_id: $scope.currentPost.post_id,
         message: $scope.message
       };
-      commentService.submitNewComment(commentObj, (data) => {
+      commentsService.submitNewComment(commentObj, (data) => {
         $scope.message = '';
         $scope.handlePostClick($scope.currentIndex);
       });
