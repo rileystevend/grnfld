@@ -72,7 +72,7 @@ const checkCredentials = async (username) => {
 };
 
 const createUser = async (username, password) => {
-  const query = await knex.select().from('users').where(knex.raw(`username ilike ${username}`));
+  const query = await knex.select().from('users').where('username', username);
 
   if (query.length) {
     return 'already exists';
