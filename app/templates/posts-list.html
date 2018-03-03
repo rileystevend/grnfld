@@ -35,7 +35,7 @@
 
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
                             <!--designate solution for post-->
-                            <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
+                            
                             <div class="row">
                                 <!-- <p class="pull-right"><small></small></p> -->
                                     <!--<a class="media-left" href="#">
@@ -46,6 +46,7 @@
                             <div class="panel panel-default">
                             <div class="panel-heading">
                             <strong>{{comment.username}}</strong> <span class="text-muted">commented at {{comment.created_at.slice(0, 10)}}</span>
+                            <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
                             </div>
                             <div class="panel-body">
                             {{comment.message}}
@@ -73,7 +74,7 @@
 
                         <form ng-show="$root.userId" name="commentForm" ng-click="submitComment(commentForm.$valid)" novalidate>
                             <div class="form-group">
-                                <label for="newCommentDescription">Description</label>
+                                <label for="newCommentDescription">Your response</label>
                                 <textarea
                                     name="message"
                                     ng-model="message"
