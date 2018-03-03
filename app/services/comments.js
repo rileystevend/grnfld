@@ -11,18 +11,27 @@
         console.log(err);
       });
   };
-  
+
+  this.likeComment = async (newLikeObj) => {
+    //newLikeObj = {
+      //userid
+      //coins to use
+      //commentId
+    //}
+    return await $http.post('/coin', newLikeObj)
+  };
+
   //grab comments
   this.getComments = function (postId, callback) {
     $http.get('/comments', {
       params: { postId: postId }
     })
-      .then(function ({ data }) {
-        callback(data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+        .then(function ({ data }) {
+          callback(data);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
   };
 
   this.selectSolution = async (commentId, postId) => {

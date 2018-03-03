@@ -85,6 +85,19 @@ const markSolution = async (commentId, postId) => {
   await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
+const checkCoin = async (userId) => {
+  return await knex.select('hackcoin').from('users').where('user_id', userId);
+};
+
+const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
+  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin)
+  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin)  //update votes by amount of hackcoins subtracted
+};
+
+const refreshCoins = async () => {
+  await knex('users').update('hackcoin', 5);
+};
+
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
@@ -93,5 +106,8 @@ module.exports = {
   checkCredentials: checkCredentials,
   createUser: createUser,
   createComment: createComment,
-  markSolution: markSolution
+  markSolution: markSolution,
+  checkCoin: checkCoin,
+  subtractCoins: subtractCoins,
+  refreshCoins: refreshCoins
 };

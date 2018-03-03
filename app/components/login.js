@@ -6,6 +6,8 @@ angular.module('app')
     if (isValid) {
       usersService.login($scope.username, $scope.password, res => {
         $rootScope.userId = res.data.user_id;
+        $rootScope.hackcoin = res.data.hackcoin;
+        console.log('$rootScope', $rootScope);
         $location.path('/');
       });
     }

@@ -65,8 +65,32 @@ angular.module('app')
     }
   };
 
-  $scope.likeComment = async (postuserid, rootuserid) => {
-    console.log('postuserid', postuserid);
-    console.log('rootuserid', rootuserid);
+  $scope.likeComment = async (commentId, index) => {
+    //need commmentId, usernameId(rootscope), how many coins to use (ng-click to send one and ng-double click to send more?)
+    //add modal for ng-doubleclick
+    let res = await commentsService.likeComment({
+      commentId: commentId,
+      userId: $rootScope.userId,
+      hackCoins: 1
+    });
+
+    if(res.status === 200){
+      $scope.$apply(() => {
+        --$rootScope.hackcoin;
+        $scope.comments[index].votes++;
+      });
+      console.log('comment ', $scope.comments[index]);
+
+    }
+
+    console.log(res);
+    console.log(res.status);
+    console.log(res.data);
+
+
+
+
+    // console.log('comment', commentId);
+    // console.log('rootuserid', $rootScope);
   };
 });
