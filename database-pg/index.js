@@ -14,17 +14,18 @@ if (config.mySql) {
   })
 }
 const getAllPosts = (callback) => {
-  knex.select().from('posts')
+  knex.column(knex.raw('posts.*, users.username')).select()
+    .from(knex.raw('posts, users'))
+    .where(knex.raw('posts.user_id = users.user_id'))
     .orderBy('post_id', 'desc')
-    .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
 
 const getComments = (postId, callback) => {
-  knex.select().from('comments')
-    .leftOuterJoin('users', 'users.user_id', 'comments.user_id')
-    .where('post_id', postId)
+  knex.column(knex.raw('comments.*, users.username')).select()
+    .from(knex.raw('comments, users'))
+    .where(knex.raw('comments.user_id = users.user_id'))
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
