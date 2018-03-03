@@ -25,7 +25,7 @@ const getAllPosts = (callback) => {
 const getComments = (postId, callback) => {
   knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
-    .where(knex.raw('comments.user_id = users.user_id'))
+    .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`))
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
@@ -54,9 +54,8 @@ const createPost = (post, callback) => {
     code: post.codebox,
     summary: post.description,
     anon: false //hard coded to false until functionality implemented
-  }).then( (data) => {
-    callback(data);
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const createComment = (comment, callback) => {
@@ -64,10 +63,8 @@ const createComment = (comment, callback) => {
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
-  }).then( (data) => {
-    console.log('before callback');
-    callback(data);
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const checkCredentials = async (username) => {

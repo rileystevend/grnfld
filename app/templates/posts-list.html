@@ -8,7 +8,7 @@
                 <small>{{post.username}}</small>
             </div>
             <p class="mb-1">{{post.summary}}</p>
-            <small>{{post.created_at.slice(0, 10)}}</small>
+            <small>{{post.created_at | date:'medium'}}</small>
         </a>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -42,7 +42,7 @@
                                     <p><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - 
                                     <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">
                                         Mark as Solution</a> Votes: {{comment.votes}}
-                                    <div>{{comment.created_at.slice(0, 10)}}</div></small></p>
+                                    <div>{{comment.created_at | date:'short'}}</div></small></p>
                                 </div>
                             </div>
                         </div>
