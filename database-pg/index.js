@@ -11,7 +11,7 @@ if (config.mySql) {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     ssl: true
-  })
+  });
 }
 const getAllPosts = (callback) => {
   knex.column(knex.raw('posts.*, users.username')).select()
@@ -55,7 +55,7 @@ const createPost = (post, callback) => {
     summary: post.description,
     anon: false //hard coded to false until functionality implemented
   }).then( (data) => {
-    callback(data)
+    callback(data);
   });
 };
 
@@ -66,7 +66,7 @@ const createComment = (comment, callback) => {
     message: comment.message
   }).then( (data) => {
     console.log('before callback');
-    callback(data)
+    callback(data);
   });
 };
 
