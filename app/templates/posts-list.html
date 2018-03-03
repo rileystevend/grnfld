@@ -1,6 +1,11 @@
 <div>
-    <h3>  Most Recent Posts:</h3>
-    <button ng-click="refresh()" type="button">Refresh</button>
+    <!-- <div class="container">
+    <p class="lead">
+      Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.
+    </p>
+    </div> -->
+    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
+    <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#myModal">
             <div class="d-flex w-100 justify-content-between">
@@ -26,24 +31,46 @@
                         <p>{{currentPost.summary}}</p>
                     </div>
                     <div class="modal-footer">
+                        
+
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
                             <!--designate solution for post-->
                             <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
-                            <div class="media">
-                                <p class="pull-right"><small></small></p>
+                            <div class="row">
+                                <!-- <p class="pull-right"><small></small></p> -->
                                     <!--<a class="media-left" href="#">
                                    <img src="http://lorempixel.com/40/40/people/1/">
                                  </a> -->
-                                 <div class="media-body">
+                            
+                            <div class="col-md-9">
+                            <div class="panel panel-default">
+                            <div class="panel-heading">
+                            <strong>{{comment.username}}</strong> <span class="text-muted">commented at {{comment.created_at.slice(0, 10)}}</span>
+                            </div>
+                            <div class="panel-body">
+                            {{comment.message}}
+                            </div><!-- /panel-body -->
+                            <p style="margin-right: 2px;"><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
+                                </small></p>
+                            </div><!-- /panel panel-default -->
+                            </div><!-- /col-sm-5 -->
+                            <div class="col-sm-3">
+                            <div class="thumbnail">
+                            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                            </div><!-- /thumbnail -->
+                            </div><!-- /col-sm-1 -->
+<!--                                  <div class="media-body">
                                      
                                    <h4 class="media-heading user_name">{{comment.username}} says:</h4>
                                    {{comment.message}}
-                                     <!--$root.userId-->
+                
                                    <p><small><a ng-click="likeComment(currentPost, comment)" href="">Like</a> - <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
                                     <div>{{comment.created_at.slice(0, 10)}}</div></small></p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
+
+
                         <form ng-show="$root.userId" name="commentForm" ng-click="submitComment(commentForm.$valid)" novalidate>
                             <div class="form-group">
                                 <label for="newCommentDescription">Description</label>
