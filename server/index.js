@@ -39,11 +39,11 @@ app.post('/createPost', (req, res) => {
 });
 
 app.post('/createComment', (req, res) => {
-  console.log('new post: ', req.body);
+  console.log('new comment: ', req.body);
   let comment = req.body;
   // db.getComments(postId, data => res.json(data));
-  db.createComment(comment, (data) => {
-    console.log('sent from server to db comment!');
+  db.createComment(comment, (data, err) => {
+    if (err) console.log(err.code);
     res.end();
   });
 });

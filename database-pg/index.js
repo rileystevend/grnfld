@@ -63,10 +63,8 @@ const createComment = (comment, callback) => {
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
-  }).then( (data) => {
-    console.log('before callback');
-    callback(data);
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const checkCredentials = async (username) => {
