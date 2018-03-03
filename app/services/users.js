@@ -9,7 +9,7 @@ angular.module('app')
         callback(data);
       })
       .catch(function (err) {
-        console.log(err);
+        callback(err);
       });
   };
 
