@@ -68,7 +68,7 @@ const createComment = (comment, callback) => {
 };
 
 const checkCredentials = async (username) => {
-  return await knex.select().from('users').where(knex.raw(`username ilike ${username}`));
+  return await knex.select().from('users').where('username', username);
 };
 
 const createUser = async (username, password) => {
