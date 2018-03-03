@@ -25,7 +25,7 @@ const getAllPosts = (callback) => {
 const getComments = (postId, callback) => {
   knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
-    .where(knex.raw('comments.user_id = users.user_id'))
+    .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`))
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
