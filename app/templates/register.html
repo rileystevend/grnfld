@@ -1,6 +1,6 @@
 <h2>THIS IS THE REGISTRATION PAGE</h2>
-<div>
-  <h3>Please register</h3>
+<div class="col-xs-6 col-sm-3">
+  <h3> Please register</h3>
   <form name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
         <div class="form-group">
             <label>Username:</label>
@@ -44,6 +44,6 @@
                 class="help-block"
             >A password is required.</p>
         </div>
-        <button type="submit" ng-disabled="registerForm.$invalid">Register</button>
+        <button type="submit" class="btn btn-success" ng-disabled="registerForm.$invalid">Register</button>
     </form>
 </div>

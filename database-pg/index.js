@@ -8,9 +8,13 @@ if (config.mySql) {
   });
 } else {
   knex = require('knex')({
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    ssl: true
+    client: 'mysql',
+    connection: {
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+      database: 'grnfld'
+    }
   })
 }
 const getAllPosts = (callback) => {
