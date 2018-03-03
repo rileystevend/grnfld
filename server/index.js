@@ -9,6 +9,12 @@ app.use(express.static(__dirname + '/../node_modules'));
 
 app.use(bodyParser.json());
 
+const timer =  24 * 60 * 1000; //hours minutes seconds  //15 * 1000
+let refreshCoins = setInterval( () => {
+  db.refreshCoins();
+}, timer);
+
+
 app.get('/posts', (req, res) => {
   db.getAllPosts(data => res.json(data));
 });
@@ -32,17 +38,18 @@ app.get('/comments', (req, res) => {
 
 app.post('/createPost', (req, res) => {
   console.log('new post: ', req.body);
-  db.createPost(req.body, (data) => {
+  db.createPost(req.body, (data, err) => {
+    if (err) console.log(err.code);
     res.end();
   });
 });
 
 app.post('/createComment', (req, res) => {
-  console.log('new post: ', req.body);
+  console.log('new comment: ', req.body);
   let comment = req.body;
   // db.getComments(postId, data => res.json(data));
-  db.createComment(comment, (data) => {
-    console.log('sent from server to db comment!');
+  db.createComment(comment, (data, err) => {
+    if (err) console.log(err.code);
     res.end();
   });
 });
@@ -55,7 +62,8 @@ app.post('/login', async (req, res) => {
     if (bcrypt.compareSync(req.body.password, user.password)) {
       res.status(200).json({
         user_id: user.user_id,
-        username: user.username
+        username: user.username,
+        hackcoin: user.hackcoin
       });
     } else {
       res.status(401).send('false password');
@@ -79,6 +87,26 @@ app.post('/register', async (req, res) => {
     });
   }
 
+});
+
+app.post('/coin', async (req, res) => {
+  console.log(req.body);
+  let currentHackCoins = await db.checkCoin(req.body.userId);
+  console.log('currentHackCoins', currentHackCoins);
+
+  currentHackCoins = currentHackCoins.pop().hackcoin;
+  console.log('currentHackCoins', currentHackCoins);
+  if(currentHackCoins > 0 && req.body.hackCoins <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+    await db.subtractCoins(currentHackCoins, req.body.hackCoins, req.body.userId, req.body.commentId);
+    res.status(200).end();
+  } else if(currentHackCoins > 0 && req.body.hackCoins > currentHackCoins) { //if usable coins but asking to use more than available
+    console.log('tried to use too many hack coins');
+    res.status(409).end();  //send something in the body for client
+  } else if(currentHackCoins <= 0) {  //if no usable coins
+    res.status(409).end();  //send something in the body for client
+  } else {
+    console.log('unexpected edge case', 'currentHackCoins', currentHackCoins,  req.body,);
+  }
 });
 
 app.post('/solution', async (req, res) => {

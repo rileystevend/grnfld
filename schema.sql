@@ -6,6 +6,7 @@ CREATE TABLE users (
  user_id serial PRIMARY KEY,
   username VARCHAR(25) NOT NULL,
   password VARCHAR(60) NOT NULL,
+  hackcoin INTEGER NOT NULL DEFAULT 5,  
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 

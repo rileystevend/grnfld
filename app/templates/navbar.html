@@ -14,6 +14,7 @@
         <li><a ng-hide="$root.userId" href="/login">Login</a></li>
         <li><a ng-hide="$root.userId" href="/register">Register</a></li>
         <li><a ng-show="$root.userId" href="/" ng-click="logout()">Logout</a></li>
+        <li><a ng-show="$root.userId" href="">Current Hackcoins: {{$root.hackcoin}}</a></li>
       </ul>
     </div>
   </div>

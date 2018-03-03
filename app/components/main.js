@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentService) {
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
   $scope.init = function() {
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
@@ -26,7 +26,7 @@ angular.module('app')
   $scope.handlePostClick = (clickedValue) => {
     $scope.currentPost = $scope.filteredPosts[clickedValue];
     //get all comments from clicked post
-    postsService.getComments($scope.currentPost.post_id, (data) => {
+    commentsService.getComments($scope.currentPost.post_id, (data) => {
       console.log('comments', data);
       $scope.comments = data;
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
@@ -48,7 +48,7 @@ angular.module('app')
         post_id: $scope.currentPost.post_id,
         message: $scope.message
       };
-      commentService.submitNewComment(commentObj, (data) => {
+      commentsService.submitNewComment(commentObj, (data) => {
         $scope.message = '';
         $scope.handlePostClick($scope.currentIndex);
       });
@@ -58,13 +58,39 @@ angular.module('app')
   $scope.selectSolution = async (comment) => {
     console.log('inside selectSolution');
     console.log('comment', comment);
-    $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
-    await postsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
-    console.log('select Solution completed');
+    if ($rootScope.userId === $scope.currentPost.user_id) {
+      $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
+      await commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+      console.log('select Solution completed');
+    }
   };
 
-  $scope.likeComment = async (postuserid, rootuserid) => {
-    console.log('postuserid', postuserid);
-    console.log('rootuserid', rootuserid);
+  $scope.likeComment = async (commentId, index) => {
+    //need commmentId, usernameId(rootscope), how many coins to use (ng-click to send one and ng-double click to send more?)
+    //add modal for ng-doubleclick
+    let res = await commentsService.likeComment({
+      commentId: commentId,
+      userId: $rootScope.userId,
+      hackCoins: 1
+    });
+
+    if(res.status === 200){
+      $scope.$apply(() => {
+        --$rootScope.hackcoin;
+        $scope.comments[index].votes++;
+      });
+      console.log('comment ', $scope.comments[index]);
+
+    }
+
+    console.log(res);
+    console.log(res.status);
+    console.log(res.data);
+
+
+
+
+    // console.log('comment', commentId);
+    // console.log('rootuserid', $rootScope);
   };
 });

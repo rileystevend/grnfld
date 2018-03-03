@@ -8,27 +8,25 @@ if (config.mySql) {
   });
 } else {
   knex = require('knex')({
-    client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'grnfld'
-    }
-  })
+
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    ssl: true
+  });
 }
 const getAllPosts = (callback) => {
-  knex.select().from('posts')
+  knex.column(knex.raw('posts.*, users.username')).select()
+    .from(knex.raw('posts, users'))
+    .where(knex.raw('posts.user_id = users.user_id'))
     .orderBy('post_id', 'desc')
-    .leftOuterJoin('users', 'users.user_id', 'posts.user_id')
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
 
 const getComments = (postId, callback) => {
-  knex.select().from('comments')
-    .leftOuterJoin('users', 'users.user_id', 'comments.user_id')
-    .where('post_id', postId)
+  knex.column(knex.raw('comments.*, users.username')).select()
+    .from(knex.raw('comments, users'))
+    .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`))
     .then(data => callback(data))
     .catch(err => callback(err.message));
 };
@@ -57,9 +55,8 @@ const createPost = (post, callback) => {
     code: post.codebox,
     summary: post.description,
     anon: false //hard coded to false until functionality implemented
-  }).then( (data) => {
-    callback(data)
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const createComment = (comment, callback) => {
@@ -67,18 +64,16 @@ const createComment = (comment, callback) => {
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
-  }).then( (data) => {
-    console.log('before callback');
-    callback(data)
-  });
+  }).then(data => callback(data, null))
+    .catch(err => callback(null, err));
 };
 
 const checkCredentials = async (username) => {
-  return await knex.select().from('users').where('username', username);
+  return await knex.select().from('users').where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
 const createUser = async (username, password) => {
-  const query = await knex.select().from('users').where('username', username);
+  const query = await knex.select().from('users').where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 
   if (query.length) {
     return 'already exists';
@@ -91,6 +86,19 @@ const markSolution = async (commentId, postId) => {
   await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
+const checkCoin = async (userId) => {
+  return await knex.select('hackcoin').from('users').where('user_id', userId);
+};
+
+const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
+  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin)
+  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin)  //update votes by amount of hackcoins subtracted
+};
+
+const refreshCoins = async () => {
+  await knex('users').update('hackcoin', 5);
+};
+
 module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
@@ -99,5 +107,8 @@ module.exports = {
   checkCredentials: checkCredentials,
   createUser: createUser,
   createComment: createComment,
-  markSolution: markSolution
+  markSolution: markSolution,
+  checkCoin: checkCoin,
+  subtractCoins: subtractCoins,
+  refreshCoins: refreshCoins
 };
