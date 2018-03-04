@@ -1,7 +1,8 @@
 angular.module('app')
-.controller('NavbarCtrl', function($scope, $rootScope) {
+.controller('NavbarCtrl', function($scope, $rootScope, $location) {
   $scope.logout = function() {
     $rootScope.userId = 0;
+    $location.path('/');
   }
 })
 .directive('navbar', function() {

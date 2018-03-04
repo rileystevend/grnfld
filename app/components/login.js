@@ -4,17 +4,24 @@ angular.module('app')
     $(this).parent().hide();
   });
 
-  $scope.username = '';
-  $scope.password = '';
+  $scope.login = {
+    username: '',
+    password: ''
+  };
+
   $scope.submit = function(isValid) {
     if (isValid) {
-      usersService.login($scope.username, $scope.password, res => {
+      usersService.login($scope.login.username, $scope.login.password, res => {
         if (res.status === 401) {
           $('#login-error').show();
         } else {
           $rootScope.userId = res.data.user_id;
           $rootScope.hackcoin = res.data.hackcoin;
-          // console.log('$rootScope', $rootScope);
+          $scope.login = {
+            username: '',
+            password: ''
+          };
+          $('#login-modal').modal('toggle');
           $location.path('/');
         }
       });
