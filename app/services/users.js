@@ -10,7 +10,7 @@ angular.module('app')
       })
       .catch(function (err) {
         callback(err);
-      });
+    });
   };
 
   this.register = function (username, password, callback) {
@@ -22,7 +22,7 @@ angular.module('app')
         callback(data);
       })
       .catch(function (err) {
-        console.log(err);
-      });
+        callback(err);
+    });
   };
 });
