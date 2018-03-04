@@ -69,11 +69,13 @@ const createComment = (comment, callback) => {
 };
 
 const checkCredentials = async (username) => {
-  return await knex.select().from('users').where(knex.raw(`LOWER(username) = LOWER('${username}')`));
+  return await knex.select().from('users')
+    .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
 const createUser = async (username, password) => {
-  const query = await knex.select().from('users').where(knex.raw(`LOWER(username) = LOWER('${username}')`));
+  const query = await knex.select().from('users')
+    .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 
   if (query.length) {
     return 'already exists';

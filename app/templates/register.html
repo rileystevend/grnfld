@@ -1,7 +1,11 @@
-<h2>THIS IS THE REGISTRATION PAGE</h2>
+
+<h1>A</h1>
+<div id="registration-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
+    <a href="#" class="close" aria-label="close">&times;</a>
+    <strong>Sorry!</strong> That username is already taken.
+</div>
 <div class="col-xs-6 col-sm-3">
-  <h3> Please register</h3>
-  <form name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
+    <form name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
         <div class="form-group">
             <label>Username:</label>
             <input
