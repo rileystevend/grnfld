@@ -14,7 +14,6 @@ angular.module('app')
         } else {
           $rootScope.userId = res.data.user_id;
           $rootScope.hackcoin = res.data.hackcoin;
-          // console.log('$rootScope', $rootScope);
           $location.path('/');
         }
       });
