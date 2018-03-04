@@ -64,7 +64,8 @@ const createComment = (comment, callback) => {
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
-  }).then(data => callback(data, null))
+  }).orderBy('comment_id', 'asc')
+    .then(data => callback(data, null))
     .catch(err => callback(null, err));
 };
 

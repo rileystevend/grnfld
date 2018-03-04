@@ -1,9 +1,4 @@
 <div>
-    <!-- <div class="container">
-    <p class="lead">
-      Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.
-    </p>
-    </div> -->
     <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
     <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
     <div class="list-group">
@@ -73,7 +68,7 @@
                         </div>
 
 
-                        <form ng-show="$root.userId" name="commentForm" ng-click="submitComment(commentForm.$valid)" novalidate>
+                        <form ng-show="$root.userId" name="commentForm" ng-submit="submitComment(commentForm.$valid)" novalidate>
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>
@@ -108,6 +103,5 @@
             
             </div>
         </div>
-       
     </div>
 </div>
