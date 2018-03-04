@@ -1,5 +1,10 @@
 angular.module('app')
 .controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
+  $('.alert .close').on('click', function (e) {
+    console.log('$(this).parent()', $(this).parent);
+    $(this).parent().hide();
+  });
+
   $scope.init = function() {
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
@@ -56,8 +61,6 @@ angular.module('app')
   };
 
   $scope.selectSolution = async (comment) => {
-    console.log('inside selectSolution');
-    console.log('comment', comment);
     if ($rootScope.userId === $scope.currentPost.user_id) {
       $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
       await commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
@@ -67,30 +70,27 @@ angular.module('app')
 
   $scope.likeComment = async (commentId, index) => {
     //need commmentId, usernameId(rootscope), how many coins to use (ng-click to send one and ng-double click to send more?)
-    //add modal for ng-doubleclick
-    let res = await commentsService.likeComment({
-      commentId: commentId,
-      userId: $rootScope.userId,
-      hackCoins: 1
-    });
-
-    if(res.status === 200){
-      $scope.$apply(() => {
-        --$rootScope.hackcoin;
-        $scope.comments[index].votes++;
+    //TODO add modal for ng-doubleclick
+    if ($rootScope.hackcoin <= 0) {
+      $('#like-error').show();
+    } else {
+      let res = await commentsService.likeComment({
+        commentId: commentId,
+        userId: $rootScope.userId,
+        hackCoins: 1
       });
-      console.log('comment ', $scope.comments[index]);
 
+      if (res.status === 200) {
+        $scope.$apply(() => {
+          --$rootScope.hackcoin;
+          $scope.comments[index].votes++;
+        });
+      }
     }
-
-    console.log(res);
-    console.log(res.status);
-    console.log(res.data);
-
-
-
-
-    // console.log('comment', commentId);
-    // console.log('rootuserid', $rootScope);
   };
+
+  // $scope.modal = () => {
+  //   console.log('inside modal');
+  //   BootstrapDialog.alert('I want banana!');
+  // }
 });
