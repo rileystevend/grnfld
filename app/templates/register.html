@@ -1,9 +1,10 @@
-<h2>THIS IS THE REGISTRATION PAGE</h2>
-<div>
-    <div id="registration-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
-        <a href="#" class="close" aria-label="close">&times;</a>
-        <strong>Sorry!</strong> That username is already taken.
-    </div>
+
+<h1>A</h1>
+<div id="registration-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
+    <a href="#" class="close" aria-label="close">&times;</a>
+    <strong>Sorry!</strong> That username is already taken.
+</div>
+<div class="col-xs-6 col-sm-3">
     <form name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
         <div class="form-group">
             <label>Username:</label>
@@ -47,6 +48,6 @@
                 class="help-block"
             >A password is required.</p>
         </div>
-        <button type="submit" ng-disabled="registerForm.$invalid">Register</button>
+        <button type="submit" class="btn btn-success" ng-disabled="registerForm.$invalid">Register</button>
     </form>
 </div>

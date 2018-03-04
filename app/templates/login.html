@@ -1,9 +1,9 @@
-<h2>THIS IS THE LOGIN PAGE</h2>
-<div>
-    <div id="login-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
-        <a href="#" class="close" aria-label="close">&times;</a>
-        <strong>Invalid!</strong> Please check your credentials and try again.
-    </div>
+<h2>LOGIN</h2>
+<div id="login-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
+    <a href="#" class="close" aria-label="close">&times;</a>
+    <strong>Invalid!</strong> Please check your credentials and try again.
+</div>
+<div class="col-xs-6 col-sm-3">
     <form name="loginForm" ng-submit="submit(loginForm.$valid)" novalidate>
         <div class="form-group">
             <label>Username:</label>
@@ -39,6 +39,6 @@
                 class="help-block"
             >Password is too short.</p>
         </div>
-        <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+        <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid">Login</button>
     </form>
 </div>
