@@ -8,12 +8,12 @@ if (config.mySql) {
   });
 } else {
   knex = require('knex')({
-
     client: 'pg',
     connection: process.env.DATABASE_URL,
     ssl: true
   });
 }
+
 const getAllPosts = async () => {
   return await knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))
@@ -87,8 +87,8 @@ const checkCoin = async (userId) => {
 };
 
 const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
-  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin)
-  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin)  //update votes by amount of hackcoins subtracted
+  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
+  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin);  //update votes by amount of hackcoins subtracted
 };
 
 const refreshCoins = async () => {
