@@ -44,14 +44,15 @@ app.post('/createPost', (req, res) => {
   });
 });
 
-app.post('/createComment', (req, res) => {
-  console.log('new comment: ', req.body);
+app.post('/createComment', async (req, res) => {
   let comment = req.body;
-  // db.getComments(postId, data => res.json(data));
-  db.createComment(comment, (data, err) => {
-    if (err) console.log(err.code);
-    res.end();
-  });
+  try {
+    ;let newComment = await db.createComment(comment);
+  } catch (err) {
+    console.log(err);
+  }
+  res.end();
+
 });
 
 app.post('/login', async (req, res) => {

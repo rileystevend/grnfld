@@ -33,20 +33,20 @@ const getComments = (postId, callback) => {
 
 //using async/await
 //currently not used
-async function getPostsWithCommentsAsync() {
+// async function getPostsWithCommentsAsync() {
   //get all posts with username
-  const posts = await knex.select().from('posts')
-      .leftOuterJoin('users', 'users.user_id', 'posts.user_id');
+  // const posts = await knex.select().from('posts')
+      // .leftOuterJoin('users', 'users.user_id', 'posts.user_id');
 
   //returns posts with a comment array inside each post object
-  return Promise.all(posts.map(async (post, index, posts) => {
+  // return Promise.all(posts.map(async (post, index, posts) => {
     //get all comments for the selected post_id
-    const comments = await knex.select().from('comments')
-        .where('post_id', post.post_id);
-    post.comments = comments;
-    return post;
-  }));
-}
+//     const comments = await knex.select().from('comments')
+//         .where('post_id', post.post_id);
+//     post.comments = comments;
+//     return post;
+//   }));
+// }
 
 const createPost = (post, callback) => {
   knex('posts').insert({
@@ -59,14 +59,12 @@ const createPost = (post, callback) => {
     .catch(err => callback(null, err));
 };
 
-const createComment = (comment, callback) => {
-  knex('comments').insert({
+const createComment = async (comment, callback) => {
+  return await knex('comments').insert({
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
-  }).orderBy('comment_id', 'asc')
-    .then(data => callback(data, null))
-    .catch(err => callback(null, err));
+  }).orderBy('comment_id', 'asc');
 };
 
 const checkCredentials = async (username) => {
@@ -106,7 +104,7 @@ module.exports = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getComments: getComments,
-  getPostsWithCommentsAsync: getPostsWithCommentsAsync,
+  // getPostsWithCommentsAsync: getPostsWithCommentsAsync,
   checkCredentials: checkCredentials,
   createUser: createUser,
   createComment: createComment,
