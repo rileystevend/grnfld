@@ -1,1 +1,1 @@
-angular.module('app', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
+angular.module('app', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'ngSanitize']);
