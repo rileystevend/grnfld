@@ -21,7 +21,7 @@ CREATE TABLE posts (
   title VARCHAR(50) NOT NULL,
   code VARCHAR(8000) DEFAULT NULL,
   summary VARCHAR(8000) DEFAULT NULL,
-  anonymous boolean DEFAULT FALSE,
+  anon boolean DEFAULT FALSE,
   closed boolean DEFAULT FALSE,
   solution_id INTEGER DEFAULT NULL, --references comment_id from comment table
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp

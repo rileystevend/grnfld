@@ -3,16 +3,24 @@ angular.module('app')
   $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
-  
-  $scope.username = '';
-  $scope.password = '';
+
+  $scope.register = {
+    username: '',
+    password: ''
+  };
+
   $scope.submit = function (isValid) {
+    console.log('hit submit', isValid)
+    console.log('$scope.register', $scope.register)
     if (isValid) {
-      usersService.register($scope.username, $scope.password, res => {
+      usersService.register($scope.register.username, $scope.register.password, res => {
         if (res.status === 409) {
+          console.log('registration error');
           $('#registration-error').show();
         } else {
+          console.log('userid', res.data.user_id);
           $rootScope.userId = res.data.user_id;
+          $rootScope.hackcoin = res.data.hackcoin;
           $location.path('/');
         }
       });
