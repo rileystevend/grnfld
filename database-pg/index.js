@@ -14,14 +14,14 @@ if (config.mySql) {
     ssl: true
   });
 }
-const getAllPosts = async (callback) => {
+const getAllPosts = async () => {
   return await knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))
     .where(knex.raw('posts.user_id = users.user_id'))
     .orderBy('post_id', 'desc');
 };
 
-const getComments = async (postId, callback) => {
+const getComments = async (postId) => {
   return await knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
@@ -44,7 +44,7 @@ const getComments = async (postId, callback) => {
 //   }));
 // }
 
-const createPost = async (post, callback) => {
+const createPost = async (post) => {
   return await knex('posts').insert({
     user_id: post.userId,
     title: post.title,
@@ -54,7 +54,7 @@ const createPost = async (post, callback) => {
   });
 };
 
-const createComment = async (comment, callback) => {
+const createComment = async (comment) => {
   return await knex('comments').insert({
     user_id: comment.user_id,
     post_id: comment.post_id,
