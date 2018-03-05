@@ -10,11 +10,11 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
-        <li><a ng-show="$root.userId" href="/submit">Submit</a></li>
-        <li><a ng-hide="$root.userId"data-toggle="modal" data-target="#login-modal">Login</a></li>
-        <li><a ng-hide="$root.userId" href="/register">Register</a></li>
-        <li><a ng-show="$root.userId" data-toggle="modal" data-target="#logout">Logout</a></li>
-        <li><a ng-show="$root.userId" href="">Current Hackcoins: {{$root.hackcoin}}</a></li>
+        <li ng-hide="$root.userId"><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+        <li ng-hide="$root.userId"><a href="/register">Register</a></li>
+        <li ng-show="$root.userId"><a href="/submit">Submit</a></li>
+        <li ng-show="$root.userId"><a href="#" data-toggle="modal" data-target="#logout">Logout</a></li>
+        <li ng-show="$root.userId"><a href="#">Current Hackcoins: {{$root.hackcoin}}</a></li>
       </ul>
     </div>
   </div>
@@ -29,7 +29,7 @@
         <h4 class="modal-title">Logout</h4>
       </div>
       <div class="modal-body">
-        <p>Do you really want to log out?</p>
+        <p>Are you sure want to log out?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" ng-click="logout()" data-dismiss="modal">Logout</button>
@@ -51,8 +51,8 @@
         <a href="#" class="close" aria-label="close">&times;</a>
         <strong>Invalid!</strong> Please check your credentials and try again.
       </div>
-      <div class="modal-body">
-        <form name="loginForm" novalidate>
+      <form name="loginForm" ng-submit="submit(loginForm.$valid)" novalidate>
+        <div class="modal-body">
           <div class="form-group">
             <label>Username:</label>
             <input type="text" name="username" ng-model="login.username" ng-minlength="5" ng-maxlength="25" required>
@@ -65,11 +65,12 @@
             <input type="password" name="password" ng-model="login.password" ng-minlength="2" required>
             <p ng-show="loginForm.password.$invalid && loginForm.password.$dirty" class="help-block">Password is too short.</p>
           </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success" ng-click="submit(loginForm.$valid); loginForm.$setPristine()" ng-disabled="loginForm.$invalid">Login</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" ng-click="loginForm.$setPristine()" ng-disabled="loginForm.$invalid">Login</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
