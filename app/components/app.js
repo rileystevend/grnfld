@@ -19,10 +19,6 @@ angular.module('app')
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
     })
-    .when('/register', {
-      templateUrl: 'templates/register.html',
-      controller: 'RegisterCtrl'
-    })
-    .otherwise({ redirectTo: '/login' });
+    .otherwise({ redirectTo: '/' });
   $locationProvider.html5Mode(true);
 });
