@@ -48,15 +48,14 @@ const getComments = (postId, callback) => {
 //   }));
 // }
 
-const createPost = (post, callback) => {
-  knex('posts').insert({
+const createPost = async (post, callback) => {
+  return await knex('posts').insert({
     user_id: post.userId,
     title: post.title,
     code: post.codebox,
     summary: post.description,
     anon: false //hard coded to false until functionality implemented
-  }).then(data => callback(data, null))
-    .catch(err => callback(null, err));
+  });
 };
 
 const createComment = async (comment, callback) => {

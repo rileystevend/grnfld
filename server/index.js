@@ -19,35 +19,36 @@ app.get('/posts', (req, res) => {
   db.getAllPosts(data => res.json(data));
 });
 
-app.get('/test', (req, res) => {
+// app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
-  let postsWithComments = async () => {
-    res.json(await db.getPostsWithCommentsAsync());
+  // let postsWithComments = async () => {
+    // res.json(await db.getPostsWithCommentsAsync());
 
-  };
+  // };
 
-  postsWithComments();
+  // postsWithComments();
 
   // res.json(db.getPostsWithCommentsAsync());  //doesn't work
-});
+// });
 
 app.get('/comments', (req, res) => {
   let postId = req.query.postId;
   db.getComments(postId, data => res.json(data));
 });
 
-app.post('/createPost', (req, res) => {
-  console.log('new post: ', req.body);
-  db.createPost(req.body, (data, err) => {
-    if (err) console.log(err.code);
-    res.end();
-  });
+app.post('/createPost', async (req, res) => {
+  try {
+  db.createPost(req.body);
+  } catch (err) {
+    console.log(err);
+  }
+  res.end();
 });
 
 app.post('/createComment', async (req, res) => {
   let comment = req.body;
   try {
-    ;let newComment = await db.createComment(comment);
+    let newComment = await db.createComment(comment);
   } catch (err) {
     console.log(err);
   }
