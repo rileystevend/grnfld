@@ -55,14 +55,13 @@ app.post('/createComment', async (req, res) => {
     console.log(err);
   }
   res.end();
-
 });
 
 app.post('/login', async (req, res) => {
   const userInfo = await db.checkCredentials(req.body.username);
 
   if (userInfo.length) {
-    const user = userInfo[0]
+    const user = userInfo[0];
     if (bcrypt.compareSync(req.body.password, user.password)) {
       res.status(200).json({
         user_id: user.user_id,
@@ -75,11 +74,9 @@ app.post('/login', async (req, res) => {
   } else {
     res.status(401).send('username doesn\'t exist');
   }
-  
 });
 
 app.post('/register', async (req, res) => {
-  console.log('inside register', req.body.username);
   const shasum = bcrypt.hashSync(req.body.password);
   const data = await db.createUser(req.body.username, shasum);
   if (data === 'already exists') {
@@ -92,17 +89,13 @@ app.post('/register', async (req, res) => {
       hackcoin: userInfo[0].hackcoin
     });
   }
-
 });
 
 app.post('/coin', async (req, res) => {
-  console.log(req.body);
   let currentHackCoins = await db.checkCoin(req.body.userId);
-  console.log('currentHackCoins', currentHackCoins);
-
   currentHackCoins = currentHackCoins.pop().hackcoin;
-  console.log('currentHackCoins', currentHackCoins);
-  if(currentHackCoins > 0 && req.body.hackCoins <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+
+  if (currentHackCoins > 0 && req.body.hackCoins <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
     await db.subtractCoins(currentHackCoins, req.body.hackCoins, req.body.userId, req.body.commentId);
     res.status(200).end();
   } else if(currentHackCoins > 0 && req.body.hackCoins > currentHackCoins) { //if usable coins but asking to use more than available
@@ -111,7 +104,7 @@ app.post('/coin', async (req, res) => {
   } else if(currentHackCoins <= 0) {  //if no usable coins
     res.status(409).end();  //send something in the body for client
   } else {
-    console.log('unexpected edge case', 'currentHackCoins', currentHackCoins,  req.body,);
+    console.log('unexpected edge case', 'currentHackCoins', currentHackCoins,  req.body);
   }
 });
 
@@ -121,7 +114,7 @@ app.post('/solution', async (req, res) => {
   res.status(200).end();
 });
 
-app.get('*', (req, res) => { res.redirect('/') });
+app.get('*', (req, res) => res.redirect('/'));
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');

@@ -1,7 +1,6 @@
 angular.module('app')
 .controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
   $('.alert .close').on('click', function (e) {
-    console.log('$(this).parent()', $(this).parent);
     $(this).parent().hide();
   });
 
@@ -65,7 +64,6 @@ angular.module('app')
     if ($rootScope.userId === $scope.currentPost.user_id) {
       $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
       await commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
-      console.log('select Solution completed');
     }
   };
 
@@ -89,10 +87,4 @@ angular.module('app')
       }
     }
   };
-
-  //test alert - use when client tries to use too many coins
-  $scope.modal = () => {
-    console.log('inside modal');
-    BootstrapDialog.alert('I want banana!');
-  }
 });

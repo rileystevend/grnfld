@@ -10,8 +10,6 @@ angular.module('app')
   };
 
   $scope.submit = function (isValid) {
-    console.log('hit submit', isValid)
-    console.log('$scope.register', $scope.register)
     if (isValid) {
       usersService.register($scope.register.username, $scope.register.password, res => {
         if (res.status === 409) {
