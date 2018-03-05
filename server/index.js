@@ -15,8 +15,9 @@ let refreshCoins = setInterval( () => {
 }, timer);
 
 
-app.get('/posts', (req, res) => {
-  db.getAllPosts(data => res.json(data));
+app.get('/posts', async (req, res) => {
+  let posts = await db.getAllPosts();
+  res.json(posts);
 });
 
 // app.get('/test', (req, res) => {

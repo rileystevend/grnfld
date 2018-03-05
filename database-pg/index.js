@@ -14,13 +14,11 @@ if (config.mySql) {
     ssl: true
   });
 }
-const getAllPosts = (callback) => {
-  knex.column(knex.raw('posts.*, users.username')).select()
+const getAllPosts = async (callback) => {
+  return await knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))
     .where(knex.raw('posts.user_id = users.user_id'))
-    .orderBy('post_id', 'desc')
-    .then(data => callback(data))
-    .catch(err => callback(err.message));
+    .orderBy('post_id', 'desc');
 };
 
 const getComments = async (postId, callback) => {
