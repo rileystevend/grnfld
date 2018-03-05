@@ -1,7 +1,6 @@
 angular.module('app')
 .controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
   $('.alert .close').on('click', function (e) {
-    console.log('$(this).parent()', $(this).parent);
     $(this).parent().hide();
   });
 
@@ -89,10 +88,4 @@ angular.module('app')
       }
     }
   };
-
-  //test alert - use when client tries to use too many coins
-  $scope.modal = () => {
-    console.log('inside modal');
-    BootstrapDialog.alert('I want banana!');
-  }
 });

@@ -8,21 +8,21 @@ if (config.mySql) {
   });
 } else {
   knex = require('knex')({
-
     client: 'pg',
     connection: process.env.DATABASE_URL,
     ssl: true
   });
 }
-const getAllPosts = async () => {
-  return await knex.column(knex.raw('posts.*, users.username')).select()
+
+const getAllPosts = () => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))
     .where(knex.raw('posts.user_id = users.user_id'))
     .orderBy('post_id', 'desc');
 };
 
-const getComments = async (postId) => {
-  return await knex.column(knex.raw('comments.*, users.username')).select()
+const getComments = (postId) => {
+  return knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
@@ -44,8 +44,8 @@ const getComments = async (postId) => {
 //   }));
 // }
 
-const createPost = async (post) => {
-  return await knex('posts').insert({
+const createPost = (post) => {
+  return knex('posts').insert({
     user_id: post.userId,
     title: post.title,
     code: post.codebox,
@@ -54,16 +54,16 @@ const createPost = async (post) => {
   });
 };
 
-const createComment = async (comment) => {
-  return await knex('comments').insert({
+const createComment = (comment) => {
+  return knex('comments').insert({
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
   }).orderBy('comment_id', 'asc');
 };
 
-const checkCredentials = async (username) => {
-  return await knex.select().from('users')
+const checkCredentials = (username) => {
+  return knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
@@ -78,21 +78,21 @@ const createUser = async (username, password) => {
   }
 };
 
-const markSolution = async (commentId, postId) => {
-  await knex('posts').where('post_id', postId).update('solution_id', commentId);
+const markSolution = (commentId, postId) => {
+  knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
-const checkCoin = async (userId) => {
-  return await knex.select('hackcoin').from('users').where('user_id', userId);
+const checkCoin = (userId) => {
+  return knex.select('hackcoin').from('users').where('user_id', userId);
 };
 
-const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
-  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin)
-  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin)  //update votes by amount of hackcoins subtracted
+const subtractCoins = (currenthackcoin, subtractinghackcoin, userId, commentId) => {
+  knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
+  knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin);  //update votes by amount of hackcoins subtracted
 };
 
-const refreshCoins = async () => {
-  await knex('users').update('hackcoin', 5);
+const refreshCoins = () => {
+  knex('users').update('hackcoin', 5);
 };
 
 module.exports = {
