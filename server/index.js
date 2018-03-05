@@ -40,7 +40,7 @@ app.get('/comments', async (req, res) => {
 
 app.post('/createPost', async (req, res) => {
   try {
-  db.createPost(req.body);
+    await db.createPost(req.body);
   } catch (err) {
     console.log(err);
   }
@@ -50,7 +50,7 @@ app.post('/createPost', async (req, res) => {
 app.post('/createComment', async (req, res) => {
   let comment = req.body;
   try {
-    let newComment = await db.createComment(comment);
+    await db.createComment(comment);
   } catch (err) {
     console.log(err);
   }
