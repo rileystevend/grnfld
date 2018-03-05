@@ -31,9 +31,10 @@ app.get('/posts', (req, res) => {
   // res.json(db.getPostsWithCommentsAsync());  //doesn't work
 // });
 
-app.get('/comments', (req, res) => {
+app.get('/comments', async (req, res) => {
   let postId = req.query.postId;
-  db.getComments(postId, data => res.json(data));
+  let comments = await db.getComments(postId);
+  res.json(comments);
 });
 
 app.post('/createPost', async (req, res) => {

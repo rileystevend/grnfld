@@ -23,12 +23,10 @@ const getAllPosts = (callback) => {
     .catch(err => callback(err.message));
 };
 
-const getComments = (postId, callback) => {
-  knex.column(knex.raw('comments.*, users.username')).select()
+const getComments = async (postId, callback) => {
+  return await knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
-    .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`))
-    .then(data => callback(data))
-    .catch(err => callback(err.message));
+    .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
 //using async/await
