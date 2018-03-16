@@ -2,12 +2,14 @@ DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE users (
- user_id serial PRIMARY KEY,
+CREATE TABLE users
+(
+  user_id INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(25) NOT NULL,
-  password VARCHAR(60) NOT NULL,
-  hackcoin INTEGER NOT NULL DEFAULT 5,  
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+  password varchar(60) NOT NULL,
+  hackcoin int NOT NULL DEFAULT 5,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (user_id)
 );
 
 -- ---
@@ -15,32 +17,39 @@ CREATE TABLE users (
 --
 -- ---
 
-CREATE TABLE posts (
-  post_id serial PRIMARY KEY,
-  user_id INTEGER REFERENCES users (user_id) NOT NULL,
+CREATE TABLE posts
+(
+  post_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
   title VARCHAR(50) NOT NULL,
   code VARCHAR(8000) DEFAULT NULL,
   summary VARCHAR(8000) DEFAULT NULL,
-  anon boolean DEFAULT FALSE,
-  closed boolean DEFAULT FALSE,
-  solution_id INTEGER DEFAULT NULL, --references comment_id from comment table
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+  anon BOOLEAN DEFAULT FALSE,
+  closed BOOLEAN DEFAULT FALSE,
+  solution_id INT DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (post_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id)
+  -- FOREIGN KEY (solution_id) REFERENCES comments (comment_id) THIS NEEDS TO BE ADDED IN AFTERWARDS
 );
-
 
 -- ---
 -- Table 'comment'
 --
 -- ---
 
-CREATE TABLE comments (
-  comment_id serial PRIMARY KEY,
-  user_id INTEGER REFERENCES users (user_id) NOT NULL,
-  post_id INTEGER REFERENCES posts (post_id) NOT NULL,
+CREATE TABLE comments
+(
+  comment_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  post_id INT NOT NULL,
   message VARCHAR(8000),
   votes INTEGER DEFAULT 0,
   solution boolean DEFAULT FALSE,
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (comment_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id),
+  FOREIGN KEY (post_id) REFERENCES posts (post_id)
 );
 
 

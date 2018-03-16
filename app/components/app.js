@@ -1,27 +1,23 @@
 angular.module('app')
-.controller('AppCtrl', function (postsService) {
-
-  this.posts = [{title: 'Heres the first post'}, {title: 'Heres the SECOND post'}];
-  postsService.getAll(data => {
-    console.log(data)
-  });
+.controller('AppCtrl', function (postsService, $rootScope) {
+  $rootScope.userId = 0;
+  $rootScope.hackcoin = 0;
 })
 .component('app', {
   bindings: {},
   controller: 'AppCtrl',
   templateUrl: 'templates/app.html'
 })
-.config(function ($routeProvider) {
+.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'templates/main.html',
-      controller: 'AppCtrl'
+      controller: 'MainCtrl'
     })
     .when('/submit', {
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
     })
-    .otherwise({
-      redirectTo: '/'
-    });
+    .otherwise({ redirectTo: '/' });
+  $locationProvider.html5Mode(true);
 });
